@@ -13,6 +13,7 @@
   :root {
     --bg-top:     #FFF8F3;
     --bg-bottom:  #FDEADF;
+    --surface:    #FFFFFF;
     --coral:      #FF7A59;
     --coral-soft: #FFE3D9;
     --mint:       #2FB693;
@@ -23,19 +24,44 @@
     --grey:       #8C90A4;
     --line:       #F0E7E0;
     --chip-bg:    #F7F7FA;
+    --track:      #F1F1F5;
     --shadow: 0 10px 24px -8px rgba(226,167,143,.35);
     --shadow-nav: 0 12px 26px -6px rgba(217,167,143,.4);
   }
 
+  html[data-theme="dark"] {
+    --bg-top:     #14110E;
+    --bg-bottom:  #1D1712;
+    --surface:    #241F1A;
+    --coral:      #FF8A67;
+    --coral-soft: #3D2A21;
+    --mint:       #45D1A6;
+    --mint-soft:  #163229;
+    --amber:      #FFC24D;
+    --amber-soft: #3B2F14;
+    --ink:        #F3EEE7;
+    --grey:       #A79E90;
+    --line:       #35302A;
+    --chip-bg:    #2B2620;
+    --track:      #322C25;
+    --shadow: 0 10px 24px -8px rgba(0,0,0,.55);
+    --shadow-nav: 0 12px 26px -6px rgba(0,0,0,.6);
+  }
+
   * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; font-family: 'IBM Plex Sans Thai', sans-serif; color: var(--ink); }
-  body { overflow: hidden; background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom)); }
+  body { overflow: hidden; background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom)); transition: background .25s; }
   button { font-family: inherit; border: none; background: none; cursor: pointer; }
   svg.ico { display: block; }
   input { font-family: inherit; }
 
   .screen { position: fixed; inset: 0; display: none; flex-direction: column; }
   .screen.active { display: flex; }
+
+  .theme-btn { width: 44px; height: 44px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--ink); transition: background .25s, transform .12s; }
+  .theme-btn:active { transform: scale(.9); }
+  .theme-btn svg { width: 19px; height: 19px; }
+  .screen-topbar { position: absolute; top: 20px; right: 20px; }
 
   /* ── LOGIN ── */
   #screen-login { align-items: center; justify-content: center; padding: 32px; }
@@ -45,15 +71,15 @@
   .login-title { font-size: 21px; font-weight: 800; text-align: center; }
   .login-sub { font-size: 12.5px; color: var(--grey); text-align: center; margin-top: -12px; }
   .login-fields { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-  .field-box { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 16px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .field-box { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 16px; padding: 14px 16px; box-shadow: var(--shadow); }
   .field-box svg { width: 18px; height: 18px; color: var(--grey); flex-shrink: 0; }
   .field-box input { border: none; outline: none; font-size: 14px; flex: 1; background: transparent; color: var(--ink); }
   .field-box input::placeholder { color: var(--grey); }
   .field-eye { color: var(--grey); flex-shrink: 0; }
   .field-eye svg { width: 18px; height: 18px; }
   .login-role-row { display: flex; gap: 10px; width: 100%; }
-  .role-toggle { flex: 1; padding: 10px; border-radius: 14px; background: #fff; box-shadow: var(--shadow); font-size: 12.5px; font-weight: 700; color: var(--grey); }
-  .role-toggle.active { background: var(--ink); color: #fff; box-shadow: none; }
+  .role-toggle { flex: 1; padding: 10px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); font-size: 12.5px; font-weight: 700; color: var(--grey); }
+  .role-toggle.active { background: var(--ink); color: var(--bg-top); box-shadow: none; }
   .login-btn { width: 100%; background: var(--coral); color: #fff; padding: 15px; border-radius: 16px; font-size: 14.5px; font-weight: 700; box-shadow: var(--shadow); }
   .login-error { font-size: 12px; color: var(--coral); text-align: center; min-height: 16px; }
   .login-hint { font-size: 11px; color: var(--grey); text-align: center; }
@@ -68,24 +94,25 @@
   .header-badge.coral { background: var(--coral-soft); color: var(--coral); }
   .header-greet { font-size: 12px; color: var(--grey); }
   .header-title { font-size: 17px; font-weight: 700; margin-top: 2px; }
-  .bell-wrap { position: relative; width: 44px; height: 44px; border-radius: 14px; background: #fff; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: auto; }
+  .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .bell-wrap { position: relative; width: 44px; height: 44px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .bell-wrap svg { width: 20px; height: 20px; }
   .bell-dot { position: absolute; right: 12px; top: 11px; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
 
   /* ── SEARCH ── */
-  .search-box { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 18px; padding: 15px 16px; box-shadow: var(--shadow); }
+  .search-box { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 18px; padding: 15px 16px; box-shadow: var(--shadow); }
   .search-box svg { width: 18px; height: 18px; color: var(--grey); flex-shrink: 0; }
   .search-box input { border: none; outline: none; font-size: 14px; flex: 1; background: transparent; color: var(--ink); }
   .search-box input::placeholder { color: var(--grey); }
 
   /* ── PROMO CARD ── */
-  .promo-card { margin-top: 20px; padding: 20px; border-radius: 26px; background: linear-gradient(135deg,#FFD9CC,#FFE9D6); box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px; }
+  .promo-card { margin-top: 20px; padding: 20px; border-radius: 26px; background: linear-gradient(135deg,#FFD9CC,#FFE9D6); box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px; color: #2A1C10; }
   .promo-card.mint { background: linear-gradient(135deg,#D6F3E8,#EAFBF3); }
   .promo-text { flex: 1; }
   .promo-pill { display: inline-block; font-size: 11px; font-weight: 600; color: var(--coral); background: rgba(255,255,255,.75); padding: 4px 10px; border-radius: 30px; margin-bottom: 12px; }
   .promo-pill.mint { color: var(--mint); }
   .promo-title { font-size: 19px; line-height: 1.3; font-weight: 800; }
-  .promo-sub { font-size: 12px; color: var(--grey); margin-top: 6px; }
+  .promo-sub { font-size: 12px; color: #6b5a4a; margin-top: 6px; }
   .promo-btn { margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: var(--coral); color: #fff; padding: 12px 18px; border-radius: 30px; font-size: 13px; font-weight: 700; }
   .promo-btn.mint { background: var(--mint); }
   .promo-btn svg { width: 15px; height: 15px; }
@@ -94,7 +121,7 @@
   .promo-icon-box svg { width: 40px; height: 40px; }
 
   /* ── SUMMARY CARD (staff) ── */
-  .summary-card { margin-top: 18px; padding: 20px; border-radius: 26px; background: #fff; box-shadow: var(--shadow); }
+  .summary-card { margin-top: 18px; padding: 20px; border-radius: 26px; background: var(--surface); box-shadow: var(--shadow); }
   .summary-top { display: flex; align-items: center; }
   .summary-top-label { font-size: 13px; color: var(--grey); }
   .summary-badge { margin-left: auto; font-size: 11px; font-weight: 700; color: #B07400; background: var(--amber-soft); padding: 5px 10px; border-radius: 30px; display: flex; align-items: center; gap: 5px; }
@@ -103,7 +130,7 @@
   .summary-value b { font-size: 36px; font-weight: 800; }
   .summary-value span { font-size: 13px; color: var(--grey); }
   .action-row { display: flex; gap: 10px; margin-top: 18px; }
-  .action-chip { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px; border-radius: 16px; background: var(--chip-bg); }
+  .action-chip { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px; border-radius: 16px; background: var(--chip-bg); color: var(--ink); }
   .action-chip svg { width: 20px; height: 20px; }
   .action-chip span { font-size: 12px; font-weight: 600; }
   .divider { height: 1px; background: var(--line); margin: 18px 0 14px; }
@@ -111,8 +138,8 @@
   .mini-stat { flex: 1; display: flex; align-items: center; gap: 10px; }
   .mini-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .mini-icon svg { width: 17px; height: 17px; }
-  .mini-icon.mint  { background: rgba(47,182,147,.12); color: var(--mint); }
-  .mini-icon.coral { background: rgba(255,122,89,.12); color: var(--coral); }
+  .mini-icon.mint  { background: rgba(47,182,147,.15); color: var(--mint); }
+  .mini-icon.coral { background: rgba(255,122,89,.15); color: var(--coral); }
   .mini-title { font-size: 11px; color: var(--grey); }
   .mini-value { font-size: 13px; font-weight: 700; }
 
@@ -124,12 +151,12 @@
   /* ── CATEGORY ROW ── */
   .category-row { display: flex; justify-content: space-between; gap: 6px; }
   .category-item { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
-  .category-icon { width: 58px; height: 58px; border-radius: 20px; background: #fff; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; }
+  .category-icon { width: 58px; height: 58px; border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; }
   .category-icon svg { width: 24px; height: 24px; }
   .category-label { font-size: 10.5px; font-weight: 600; text-align: center; }
 
-  /* ── MEDICINE CARD (staff) ── */
-  .med-card { background: #fff; border-radius: 24px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; cursor: pointer; border: 1.2px solid transparent; }
+  /* ── MEDICINE CARD (staff, stock page) ── */
+  .med-card { background: var(--surface); border-radius: 24px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; cursor: pointer; border: 1.2px solid transparent; }
   .med-card.low { border-color: rgba(255,176,32,.45); }
   .med-top { display: flex; align-items: center; gap: 14px; }
   .med-icon { width: 52px; height: 52px; border-radius: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -139,7 +166,7 @@
   .med-stock { text-align: right; flex-shrink: 0; }
   .med-stock b { font-size: 20px; font-weight: 800; }
   .med-stock div { font-size: 11px; color: var(--grey); }
-  .progress-wrap { height: 7px; border-radius: 20px; background: #F1F1F5; overflow: hidden; margin-top: 14px; }
+  .progress-wrap { height: 7px; border-radius: 20px; background: var(--track); overflow: hidden; margin-top: 14px; }
   .progress-bar { height: 100%; border-radius: 20px; transition: width .3s; }
   .med-bottom { display: flex; align-items: center; margin-top: 8px; }
   .med-min { font-size: 11px; color: var(--grey); }
@@ -147,19 +174,19 @@
   .med-flag.warn { color: #B07400; background: var(--amber-soft); padding: 4px 10px; border-radius: 30px; }
   .med-flag.ok { color: var(--mint); }
 
-  /* ── STOCK PAGE (staff) ── */
+  /* ── STOCK PAGE (staff only) ── */
   .stock-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
   .stock-title { font-size: 24px; font-weight: 800; }
   .stock-sub { font-size: 12px; color: var(--grey); margin-top: 4px; }
   .add-btn { width: 46px; height: 46px; border-radius: 16px; background: var(--coral); color: #fff; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: auto; }
   .add-btn svg { width: 20px; height: 20px; }
   .filter-row { display: flex; gap: 10px; margin: 16px 0 18px; }
-  .filter-chip { padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; background: #fff; color: var(--grey); box-shadow: var(--shadow); transition: .2s; }
-  .filter-chip.active { background: var(--ink); color: #fff; box-shadow: none; }
+  .filter-chip { padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; background: var(--surface); color: var(--grey); box-shadow: var(--shadow); transition: .2s; }
+  .filter-chip.active { background: var(--ink); color: var(--bg-top); box-shadow: none; }
   .empty-state { text-align: center; padding: 50px 0; color: var(--grey); font-size: 13px; }
 
   /* ── STAFF APPROVAL CARD ── */
-  .approval-card { background: #fff; border-radius: 22px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; }
+  .approval-card { background: var(--surface); border-radius: 22px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; }
   .approval-top { display: flex; align-items: center; gap: 12px; }
   .approval-avatar { width: 42px; height: 42px; border-radius: 13px; background: var(--mint-soft); color: var(--mint); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .approval-avatar svg { width: 20px; height: 20px; }
@@ -170,36 +197,38 @@
   .approval-status.approved { background: var(--mint-soft); color: var(--mint); }
   .approval-status.rejected { background: #FFE3E0; color: #D9483D; }
   .approval-items { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
-  .approval-tag { font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 20px; background: var(--chip-bg); }
+  .approval-tag { font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 20px; background: var(--chip-bg); color: var(--ink); }
   .approval-actions { display: flex; gap: 10px; }
   .approval-btn { flex: 1; padding: 10px; border-radius: 13px; font-size: 12.5px; font-weight: 700; }
   .approval-btn.approve { background: var(--mint); color: #fff; }
   .approval-btn.reject { background: #FFE3E0; color: #D9483D; }
 
   /* ── STUDENT REQUEST FORM ── */
-  .med-select-item { display: flex; align-items: center; gap: 13px; background: #fff; border-radius: 18px; padding: 13px 14px; margin-bottom: 9px; box-shadow: var(--shadow); cursor: pointer; border: 2px solid transparent; transition: border-color .12s; }
+  .med-select-item { display: flex; align-items: center; gap: 13px; background: var(--surface); border-radius: 18px; padding: 13px 14px; margin-bottom: 9px; box-shadow: var(--shadow); cursor: pointer; border: 2px solid transparent; transition: border-color .12s; }
   .med-select-item.selected { border-color: var(--coral); }
   .med-select-check { width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--line); flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; }
   .med-select-check svg { width: 14px; height: 14px; display: none; }
   .med-select-item.selected .med-select-check { background: var(--coral); border-color: var(--coral); }
   .med-select-item.selected .med-select-check svg { display: block; }
   .submit-btn { width: 100%; background: var(--coral); color: #fff; padding: 15px; border-radius: 16px; font-size: 14.5px; font-weight: 700; box-shadow: var(--shadow); margin-top: 4px; }
-  .my-req-card { background: #fff; border-radius: 18px; padding: 14px 16px; box-shadow: var(--shadow); margin-bottom: 10px; }
+  .my-req-card { background: var(--surface); border-radius: 18px; padding: 14px 16px; box-shadow: var(--shadow); margin-bottom: 10px; }
   .my-req-top { display: flex; align-items: center; }
   .my-req-time { font-size: 11px; color: var(--grey); }
   .my-req-items { font-size: 13px; font-weight: 600; margin-top: 4px; }
 
-  /* ── PLACEHOLDER / PROFILE PAGES ── */
+  /* ── PLACEHOLDER / PROFILE ── */
   .placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; }
-  .placeholder-icon { width: 96px; height: 96px; border-radius: 32px; background: #fff; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; color: var(--coral); margin-bottom: 18px; }
+  .placeholder-icon { width: 96px; height: 96px; border-radius: 32px; background: var(--surface); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; color: var(--coral); margin-bottom: 18px; }
   .placeholder-icon svg { width: 44px; height: 44px; }
   .placeholder-title { font-size: 20px; font-weight: 800; }
   .placeholder-sub { font-size: 13px; color: var(--grey); margin-top: 6px; }
-  .logout-btn { margin-top: 24px; display: flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 30px; background: #fff; box-shadow: var(--shadow); color: var(--coral); font-size: 13px; font-weight: 700; }
+  .logout-btn { margin-top: 24px; display: flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); color: var(--coral); font-size: 13px; font-weight: 700; }
   .logout-btn svg { width: 16px; height: 16px; }
+  .theme-row-profile { margin-top: 14px; display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); color: var(--ink); font-size: 12.5px; font-weight: 700; }
+  .theme-row-profile svg { width: 15px; height: 15px; }
 
   /* ── BOTTOM NAV ── */
-  .nav-bar { position: fixed; left: 20px; right: 20px; bottom: 22px; background: #fff; border-radius: 28px; box-shadow: var(--shadow-nav); padding: 10px 8px; display: flex; justify-content: space-around; }
+  .nav-bar { position: fixed; left: 20px; right: 20px; bottom: 22px; background: var(--surface); border-radius: 28px; box-shadow: var(--shadow-nav); padding: 10px 8px; display: flex; justify-content: space-around; }
   .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 12px; border-radius: 18px; color: var(--grey); transition: .2s; }
   .nav-btn svg { width: 22px; height: 22px; }
   .nav-btn span { font-size: 10px; font-weight: 500; }
@@ -207,7 +236,7 @@
   .nav-btn.active span { font-weight: 700; }
 
   /* ── TOAST ── */
-  .toast { position: fixed; left: 20px; right: 20px; bottom: 100px; background: var(--ink); color: #fff; padding: 14px 18px; border-radius: 14px; font-size: 13px; text-align: center; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: .25s; pointer-events: none; z-index: 999; }
+  .toast { position: fixed; left: 20px; right: 20px; bottom: 100px; background: var(--ink); color: var(--bg-top); padding: 14px 18px; border-radius: 14px; font-size: 13px; text-align: center; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: .25s; pointer-events: none; z-index: 999; }
   .toast.show { opacity: 1; transform: translateY(0); }
 </style>
 </head>
@@ -215,6 +244,7 @@
 
 <!-- LOGIN -->
 <div class="screen active" id="screen-login">
+  <div class="screen-topbar"><button class="theme-btn" id="loginThemeBtn" onclick="toggleTheme()"></button></div>
   <div class="login-box">
     <div class="login-logo">${ICON.pharmacy}</div>
     <div class="login-title">MediCare Station</div>
@@ -277,10 +307,30 @@ const ICON = {
   check:         `<svg class="ico" viewBox="0 0 24 24" ${S}><polyline points="4,12 9,17 20,6"/></svg>`,
   x:             `<svg class="ico" viewBox="0 0 24 24" ${S}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
   cap:           `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M6 10.5V16c0 1.2 2.7 3 6 3s6-1.8 6-3v-5.5"/><line x1="22" y1="8" x2="22" y2="14"/></svg>`,
+  moon:          `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M20 14.5A8.5 8.5 0 119.5 4a7 7 0 0010.5 10.5z"/></svg>`,
+  sun:           `<svg class="ico" viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="4"/><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/><line x1="4.6" y1="4.6" x2="6.4" y2="6.4"/><line x1="17.6" y1="17.6" x2="19.4" y2="19.4"/><line x1="4.6" y1="19.4" x2="6.4" y2="17.6"/><line x1="17.6" y1="6.4" x2="19.4" y2="4.6"/></svg>`,
 };
 document.body.innerHTML = document.body.innerHTML.replace(/\$\{ICON\.(\w+)\}/g, (m, k) => ICON[k] || '');
 
 const C = { coral:'#FF7A59', mint:'#2FB693', amber:'#FFB020', indigo:'#7C83FF', blue:'#4CAFEF', teal:'#00BFA6' };
+
+// ── THEME ──
+const THEME_KEY = 'medicare_theme';
+let currentTheme = localStorage.getItem(THEME_KEY) || 'light';
+function applyTheme(theme) {
+  currentTheme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem(THEME_KEY, theme);
+  const btn = document.getElementById('loginThemeBtn');
+  if (btn) btn.innerHTML = theme === 'dark' ? ICON.sun : ICON.moon;
+}
+function toggleTheme() {
+  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  if (document.getElementById('app').classList.contains('active')) {
+    renderHome(); renderStock(); renderRequestPage(); renderProfile();
+  }
+}
+applyTheme(currentTheme);
 
 // ── DATA ──
 const medicines = [
@@ -355,7 +405,6 @@ function applyRoleUI() {
   renderProfile();
   switchPage('home');
 }
-
 function renderNav() {
   const staffNav = `
     <button class="nav-btn active" data-page="home" onclick="switchPage('home')">${ICON.home}<span>หน้าแรก</span></button>
@@ -367,9 +416,7 @@ function renderNav() {
     <button class="nav-btn" data-page="request" onclick="switchPage('request')">${ICON.medkit}<span>ขอเบิกยา</span></button>
     <button class="nav-btn" data-page="profile" onclick="switchPage('profile')">${ICON.user}<span>บัญชี</span></button>`;
   document.getElementById('navBar').innerHTML = currentRole === 'staff' ? staffNav : studentNav;
-  // stock page/nav only exists for staff — hide the page container harmlessly if student
 }
-
 function switchPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
@@ -377,6 +424,8 @@ function switchPage(name) {
 }
 
 // ── HOME PAGE ──
+function themeBtnHTML() { return `<button class="theme-btn" onclick="toggleTheme()">${currentTheme === 'dark' ? ICON.sun : ICON.moon}</button>`; }
+
 function renderHome() {
   const el = document.getElementById('page-home');
   if (currentRole === 'staff') {
@@ -385,7 +434,7 @@ function renderHome() {
       <div class="header-row">
         <div class="header-badge">${ICON.pharmacy}</div>
         <div><div class="header-greet">สวัสดีตอนเช้า</div><div class="header-title">ห้องพยาบาล มหาวิทยาลัย</div></div>
-        <div class="bell-wrap">${ICON.bell}<div class="bell-dot"></div></div>
+        <div class="header-actions">${themeBtnHTML()}<div class="bell-wrap">${ICON.bell}<div class="bell-dot"></div></div></div>
       </div>
       <div class="search-box">${ICON.search}<input placeholder="ค้นหายา หรือ อาการ..."></div>
       <div class="promo-card">
@@ -425,7 +474,7 @@ function renderHome() {
       <div class="header-row">
         <div class="header-badge coral">${ICON.cap}</div>
         <div><div class="header-greet">สวัสดี</div><div class="header-title">${currentUser}</div></div>
-        <div class="bell-wrap">${ICON.bell}<div class="bell-dot"></div></div>
+        <div class="header-actions">${themeBtnHTML()}<div class="bell-wrap">${ICON.bell}<div class="bell-dot"></div></div></div>
       </div>
       <div class="search-box">${ICON.search}<input placeholder="ค้นหาอาการ เช่น ปวดหัว, คัน..."></div>
       <div class="promo-card mint">
@@ -446,14 +495,14 @@ function renderHome() {
   }
 }
 
-// ── MEDICINE CARD (staff, stock page) ──
+// ── MEDICINE CARD ──
 function medCardHTML(m) {
   return `
   <div class="med-card ${m.isLow ? 'low' : ''}" onclick="toast('รายละเอียด: ${m.name}')">
     <div class="med-top">
-      <div class="med-icon" style="background:${hexA(m.color,.12)};color:${m.color}">${ICON[m.icon]}</div>
+      <div class="med-icon" style="background:${hexA(m.color,.15)};color:${m.color}">${ICON[m.icon]}</div>
       <div style="flex:1;min-width:0"><div class="med-name">${m.name}</div><div class="med-usage">${m.usage}</div></div>
-      <div class="med-stock"><b style="color:${m.isLow ? C.amber : '#1E2430'}">${m.stock}</b><div>ชิ้น</div></div>
+      <div class="med-stock"><b style="color:${m.isLow ? C.amber : 'var(--ink)'}">${m.stock}</b><div>ชิ้น</div></div>
     </div>
     <div class="progress-wrap"><div class="progress-bar" style="width:${m.ratio*100}%;background:${m.isLow ? C.amber : m.color}"></div></div>
     <div class="med-bottom">
@@ -496,7 +545,7 @@ function renderStockList() {
   document.getElementById('stockList').innerHTML = list.length ? list.map(medCardHTML).join('') : `<div class="empty-state">ไม่พบรายการยา</div>`;
 }
 
-// ── REQUEST PAGE (branches by role) ──
+// ── REQUEST PAGE ──
 function renderRequestPage() {
   const el = document.getElementById('page-request');
   if (currentRole === 'staff') {
@@ -515,8 +564,6 @@ function renderRequestPage() {
     renderMyReqList();
   }
 }
-
-// staff: approvals
 function renderApprovalList() {
   document.getElementById('approvalList').innerHTML = pendingApprovals.map((r, i) => `
     <div class="approval-card">
@@ -539,11 +586,9 @@ function setApproval(i, status) {
   renderHome();
   toast(status === 'approved' ? 'อนุมัติคำขอแล้ว' : 'ปฏิเสธคำขอแล้ว');
 }
-
-// student: request form
 function renderMedSelectList() {
   document.getElementById('medSelectList').innerHTML = medicines.map(m => `
-    <div class="med-select-item ${selectedMedIds.has(m.id) ? 'selected' : ''}" id="medSel${m.id}" onclick="toggleMedSelect(${m.id})">
+    <div class="med-select-item ${selectedMedIds.has(m.id) ? 'selected' : ''}" onclick="toggleMedSelect(${m.id})">
       <div class="med-select-check">${ICON.check}</div>
       <div><div class="med-name">${m.name}</div><div class="med-usage">${m.usage}</div></div>
     </div>`).join('');
@@ -583,6 +628,7 @@ function renderProfile() {
       <div class="placeholder-icon">${currentRole === 'staff' ? ICON.user : ICON.cap}</div>
       <div class="placeholder-title">${currentUser}</div>
       <div class="placeholder-sub">${currentRole === 'staff' ? 'เจ้าหน้าที่ห้องพยาบาล' : 'นักศึกษา'}</div>
+      <button class="theme-row-profile" onclick="toggleTheme()">${currentTheme === 'dark' ? ICON.sun : ICON.moon} ${currentTheme === 'dark' ? 'โหมดกลางวัน' : 'โหมดกลางคืน'}</button>
       <button class="logout-btn" onclick="logout()">${ICON.logout} ออกจากระบบ</button>
     </div>`;
 }
