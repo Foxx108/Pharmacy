@@ -1,645 +1,180 @@
 <!DOCTYPE html>
-<html lang="th">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<html lang="th"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>MediCare Station</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700;800&display=swap');
+:root{--g:#0f766e;--gd:#115e56;--gl:#e6f4f1;--line:#c4e3dd;--bg:#f7fbfa;--ink:#10302c;--soft:#4a6b66;--am:#b45309;--amb:#fef4e6;--ro:#9f1239;--rob:#fdf0f3}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'IBM Plex Sans Thai',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6}
+button{font:inherit;cursor:pointer}input,select,textarea{font:inherit;width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:#fff;color:var(--ink)}
+input[type=file]{border:0;padding:0}
+.hide{display:none!important}.soft{color:var(--soft);font-size:13px}.empty{text-align:center;color:var(--soft);padding:26px 0}.clk{cursor:pointer}.clk:hover{color:var(--g)}
+.shell{display:flex;min-height:100vh}
+.side{width:240px;flex-shrink:0;background:var(--g);color:#d7efea;padding:22px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{padding:0 8px 18px;border-bottom:1px solid rgba(255,255,255,.16);margin-bottom:14px}.brand b{display:block;color:#fff;font-size:17px}.brand span{font-size:12.5px;color:#9fd3ca}
+.nb{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:#cfe9e4;padding:10px 12px;border-radius:9px;margin-bottom:2px;text-align:left;position:relative}
+.nb:hover{background:rgba(255,255,255,.1)}.nb.on{background:#fff;color:var(--g);font-weight:600}.ic{font-size:18px}
+.bd{margin-left:auto;background:#fbbf24;color:#422006;font-size:11.5px;font-weight:700;border-radius:99px;padding:0 7px}
+.who{margin-top:auto;padding:12px 8px 0;border-top:1px solid rgba(255,255,255,.16);font-size:12.5px}.who b{display:block;color:#fff;font-size:14px}
+.main{flex:1;min-width:0;padding:28px 32px 50px;max-width:1080px}.mtop{display:none}
+h2{font-size:22px}.sub{color:var(--soft);font-size:14px;margin-bottom:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.btn{background:var(--g);color:#fff;border:0;padding:9px 16px;border-radius:9px;font-weight:600}.btn:hover{background:var(--gd)}.btn:disabled{opacity:.5}
+.btn.gh{background:none;border:1px solid var(--line);color:var(--g)}.btn.no{background:none;border:1px solid #e9c4cf;color:var(--ro)}.btn.sm{padding:5px 11px;font-size:13.5px}
+label{display:block;font-size:13px;font-weight:600;color:var(--soft);margin-bottom:4px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:1px 9px;border-radius:99px}.ok{background:var(--gl);color:var(--g)}.wait{background:var(--amb);color:var(--am)}.bad{background:var(--rob);color:var(--ro)}
+.row{display:flex;align-items:center;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}.stat b{display:block;font-size:26px;line-height:1.2}
+.cols{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}.cartpanel{position:sticky;top:20px}
+.flt{display:flex;gap:10px;margin-bottom:14px}.flt select{width:170px}
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.mc{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.im{position:relative;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden}.im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mc .im{height:110px;cursor:pointer}.thumb{width:52px;height:52px;border-radius:10px;flex-shrink:0;font-size:22px;cursor:pointer}
+.cr{padding:8px 0;border-bottom:1px solid #edf5f3;font-size:14px}.cr input{width:70px;text-align:center}
+.fab{display:none;position:fixed;right:16px;bottom:84px;background:var(--g);color:#fff;border:0;border-radius:99px;padding:12px 20px;font-weight:600;box-shadow:0 6px 20px rgba(15,118,110,.4);z-index:40;gap:6px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--ink);color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;z-index:999;box-shadow:0 6px 24px rgba(16,48,44,.3);max-width:90vw;text-align:center}.toast.er{background:var(--ro)}
+.mw{position:fixed;inset:0;background:rgba(16,48,44,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:200}
+.mcard{background:#fff;border-radius:14px;max-width:480px;width:100%;max-height:88vh;overflow-y:auto;padding:22px;position:relative}
+.mx{position:absolute;top:10px;right:12px;background:none;border:0;font-size:24px;color:var(--soft);line-height:1}
+.mrow{padding:9px 0;border-bottom:1px solid #edf5f3}.mrow .soft{font-weight:600}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fg .f{grid-column:1/-1}
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.gb{width:100%;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px 26px;box-shadow:0 10px 40px rgba(15,118,110,.1)}.gb h1{font-size:21px;text-align:center}
+.rt{display:flex;gap:8px;margin:18px 0}.rt button{flex:1;padding:10px;border-radius:9px;border:1.5px solid var(--line);background:#fff;color:var(--soft);font-weight:600}.rt button.on{background:var(--g);border-color:var(--g);color:#fff}
+.fld{margin-bottom:14px}.ge{color:var(--ro);font-size:13.5px;min-height:1.4em;margin-bottom:6px}
+@media(max-width:860px){
+.side{position:fixed;top:auto;bottom:0;left:0;right:0;width:auto;height:auto;flex-direction:row;padding:4px 2px calc(4px + env(safe-area-inset-bottom));z-index:50;box-shadow:0 -4px 16px rgba(16,48,44,.15)}
+.brand,.who{display:none}#nav{display:flex;width:100%}
+.nb{flex-direction:column;flex:1;gap:0;padding:6px 0;font-size:11px;align-items:center;justify-content:center;margin:0}
+.nb .bd{position:absolute;top:0;right:14%;margin:0;font-size:10px}
+.mtop{display:flex;align-items:center;justify-content:space-between;background:var(--g);color:#fff;padding:12px 16px;font-weight:600}
+.mtop button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:8px;padding:5px 12px;font-size:13px}
+.main{padding:16px 14px 100px}.cols{grid-template-columns:1fr}.cartpanel{display:none}.fab{display:flex}
+.g4{grid-template-columns:1fr 1fr}.mg{grid-template-columns:1fr 1fr}
+}
+</style></head><body>
 
-  :root {
-    --bg-top:     #FFF8F3;
-    --bg-bottom:  #FDEADF;
-    --surface:    #FFFFFF;
-    --coral:      #FF7A59;
-    --coral-soft: #FFE3D9;
-    --mint:       #2FB693;
-    --mint-soft:  #DFF5EE;
-    --amber:      #FFB020;
-    --amber-soft: #FFF1D6;
-    --ink:        #1E2430;
-    --grey:       #8C90A4;
-    --line:       #F0E7E0;
-    --chip-bg:    #F7F7FA;
-    --track:      #F1F1F5;
-    --shadow: 0 10px 24px -8px rgba(226,167,143,.35);
-    --shadow-nav: 0 12px 26px -6px rgba(217,167,143,.4);
-  }
+<div id="gate" class="gate"><div class="gb">
+<h1>💊 MediCare Station</h1><p class="soft" style="text-align:center">ระบบเบิกจ่ายยาสามัญ ห้องพยาบาล</p>
+<div class="rt"><button id="t_student" class="on" onclick="setRole('student')">นักศึกษา</button><button id="t_staff" onclick="setRole('staff')">เจ้าหน้าที่</button></div>
+<div class="fld"><label>ชื่อ-นามสกุล</label><input type="text" id="gn" placeholder="กรอกชื่อของคุณ" onkeydown="if(event.key=='Enter')enter()"></div>
+<div class="fld hide" id="cf"><label>รหัสเจ้าหน้าที่</label><input type="password" id="gc" placeholder="กรอกรหัสผ่าน" onkeydown="if(event.key=='Enter')enter()"></div>
+<div class="ge" id="ge"></div><button class="btn" style="width:100%" id="eb" onclick="enter()">เข้าสู่ระบบ</button>
+</div></div>
 
-  html[data-theme="dark"] {
-    --bg-top:     #14110E;
-    --bg-bottom:  #1D1712;
-    --surface:    #241F1A;
-    --coral:      #FF8A67;
-    --coral-soft: #3D2A21;
-    --mint:       #45D1A6;
-    --mint-soft:  #163229;
-    --amber:      #FFC24D;
-    --amber-soft: #3B2F14;
-    --ink:        #F3EEE7;
-    --grey:       #A79E90;
-    --line:       #35302A;
-    --chip-bg:    #2B2620;
-    --track:      #322C25;
-    --shadow: 0 10px 24px -8px rgba(0,0,0,.55);
-    --shadow-nav: 0 12px 26px -6px rgba(0,0,0,.6);
-  }
-
-  * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; font-family: 'IBM Plex Sans Thai', sans-serif; color: var(--ink); }
-  body { overflow: hidden; background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom)); transition: background .25s; }
-  button { font-family: inherit; border: none; background: none; cursor: pointer; }
-  svg.ico { display: block; }
-  input { font-family: inherit; }
-
-  .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
-  .screen.active { display: flex; }
-
-  .theme-btn { width: 44px; height: 44px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--ink); transition: background .25s, transform .12s; }
-  .theme-btn:active { transform: scale(.9); }
-  .theme-btn svg { width: 19px; height: 19px; }
-  .screen-topbar { position: absolute; top: 20px; right: 20px; }
-
-  /* ── LOGIN ── */
-  #screen-login { align-items: center; justify-content: center; padding: 32px; }
-  .login-box { width: 100%; max-width: 340px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
-  .login-logo { width: 84px; height: 84px; border-radius: 28px; background: var(--mint-soft); color: var(--mint); display: flex; align-items: center; justify-content: center; }
-  .login-logo svg { width: 40px; height: 40px; }
-  .login-title { font-size: 21px; font-weight: 800; text-align: center; }
-  .login-sub { font-size: 12.5px; color: var(--grey); text-align: center; margin-top: -12px; }
-  .login-fields { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-  .field-box { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 16px; padding: 14px 16px; box-shadow: var(--shadow); }
-  .field-box svg { width: 18px; height: 18px; color: var(--grey); flex-shrink: 0; }
-  .field-box input { border: none; outline: none; font-size: 14px; flex: 1; background: transparent; color: var(--ink); }
-  .field-box input::placeholder { color: var(--grey); }
-  .field-eye { color: var(--grey); flex-shrink: 0; }
-  .field-eye svg { width: 18px; height: 18px; }
-  .login-role-row { display: flex; gap: 10px; width: 100%; }
-  .role-toggle { flex: 1; padding: 10px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); font-size: 12.5px; font-weight: 700; color: var(--grey); }
-  .role-toggle.active { background: var(--ink); color: var(--bg-top); box-shadow: none; }
-  .login-btn { width: 100%; background: var(--coral); color: #fff; padding: 15px; border-radius: 16px; font-size: 14.5px; font-weight: 700; box-shadow: var(--shadow); }
-  .login-error { font-size: 12px; color: var(--coral); text-align: center; min-height: 16px; }
-  .login-hint { font-size: 11px; color: var(--grey); text-align: center; }
-
-  .page { display: none; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 20px 20px 130px; }
-  .page.active { display: block; }
-
-  /* ── HEADER ── */
-  .header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-  .header-badge { width: 48px; height: 48px; border-radius: 16px; background: var(--mint-soft); color: var(--mint); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .header-badge svg { width: 24px; height: 24px; }
-  .header-badge.coral { background: var(--coral-soft); color: var(--coral); }
-  .header-greet { font-size: 12px; color: var(--grey); }
-  .header-title { font-size: 17px; font-weight: 700; margin-top: 2px; }
-  .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-  .bell-wrap { position: relative; width: 44px; height: 44px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .bell-wrap svg { width: 20px; height: 20px; }
-  .bell-dot { position: absolute; right: 12px; top: 11px; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
-
-  /* ── SEARCH ── */
-  .search-box { display: flex; align-items: center; gap: 10px; background: var(--surface); border-radius: 18px; padding: 15px 16px; box-shadow: var(--shadow); }
-  .search-box svg { width: 18px; height: 18px; color: var(--grey); flex-shrink: 0; }
-  .search-box input { border: none; outline: none; font-size: 14px; flex: 1; background: transparent; color: var(--ink); }
-  .search-box input::placeholder { color: var(--grey); }
-
-  /* ── PROMO CARD ── */
-  .promo-card { margin-top: 20px; padding: 20px; border-radius: 26px; background: linear-gradient(135deg,#FFD9CC,#FFE9D6); box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px; color: #2A1C10; }
-  .promo-card.mint { background: linear-gradient(135deg,#D6F3E8,#EAFBF3); }
-  .promo-text { flex: 1; }
-  .promo-pill { display: inline-block; font-size: 11px; font-weight: 600; color: var(--coral); background: rgba(255,255,255,.75); padding: 4px 10px; border-radius: 30px; margin-bottom: 12px; }
-  .promo-pill.mint { color: var(--mint); }
-  .promo-title { font-size: 19px; line-height: 1.3; font-weight: 800; }
-  .promo-sub { font-size: 12px; color: #6b5a4a; margin-top: 6px; }
-  .promo-btn { margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; background: var(--coral); color: #fff; padding: 12px 18px; border-radius: 30px; font-size: 13px; font-weight: 700; }
-  .promo-btn.mint { background: var(--mint); }
-  .promo-btn svg { width: 15px; height: 15px; }
-  .promo-icon-box { width: 84px; height: 84px; border-radius: 28px; background: rgba(255,255,255,.6); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--coral); }
-  .promo-icon-box.mint { color: var(--mint); }
-  .promo-icon-box svg { width: 40px; height: 40px; }
-
-  /* ── SUMMARY CARD (staff) ── */
-  .summary-card { margin-top: 18px; padding: 20px; border-radius: 26px; background: var(--surface); box-shadow: var(--shadow); }
-  .summary-top { display: flex; align-items: center; }
-  .summary-top-label { font-size: 13px; color: var(--grey); }
-  .summary-badge { margin-left: auto; font-size: 11px; font-weight: 700; color: #B07400; background: var(--amber-soft); padding: 5px 10px; border-radius: 30px; display: flex; align-items: center; gap: 5px; }
-  .summary-badge svg { width: 12px; height: 12px; }
-  .summary-value { display: flex; align-items: baseline; gap: 6px; margin-top: 8px; }
-  .summary-value b { font-size: 36px; font-weight: 800; }
-  .summary-value span { font-size: 13px; color: var(--grey); }
-  .action-row { display: flex; gap: 10px; margin-top: 18px; }
-  .action-chip { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px; border-radius: 16px; background: var(--chip-bg); color: var(--ink); }
-  .action-chip svg { width: 20px; height: 20px; }
-  .action-chip span { font-size: 12px; font-weight: 600; }
-  .divider { height: 1px; background: var(--line); margin: 18px 0 14px; }
-  .mini-stats { display: flex; gap: 12px; }
-  .mini-stat { flex: 1; display: flex; align-items: center; gap: 10px; }
-  .mini-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .mini-icon svg { width: 17px; height: 17px; }
-  .mini-icon.mint  { background: rgba(47,182,147,.15); color: var(--mint); }
-  .mini-icon.coral { background: rgba(255,122,89,.15); color: var(--coral); }
-  .mini-title { font-size: 11px; color: var(--grey); }
-  .mini-value { font-size: 13px; font-weight: 700; }
-
-  /* ── SECTION TITLE ── */
-  .section-row { display: flex; justify-content: space-between; align-items: center; margin: 24px 0 14px; }
-  .section-title { font-size: 17px; font-weight: 800; }
-  .section-action { font-size: 12px; font-weight: 600; color: var(--coral); }
-
-  /* ── CATEGORY ROW ── */
-  .category-row { display: flex; justify-content: space-between; gap: 6px; }
-  .category-item { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
-  .category-icon { width: 58px; height: 58px; border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; }
-  .category-icon svg { width: 24px; height: 24px; }
-  .category-label { font-size: 10.5px; font-weight: 600; text-align: center; }
-
-  /* ── MEDICINE CARD (staff, stock page) ── */
-  .med-card { background: var(--surface); border-radius: 24px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; cursor: pointer; border: 1.2px solid transparent; }
-  .med-card.low { border-color: rgba(255,176,32,.45); }
-  .med-top { display: flex; align-items: center; gap: 14px; }
-  .med-icon { width: 52px; height: 52px; border-radius: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .med-icon svg { width: 24px; height: 24px; }
-  .med-name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .med-usage { font-size: 12px; color: var(--grey); margin-top: 3px; }
-  .med-stock { text-align: right; flex-shrink: 0; }
-  .med-stock b { font-size: 20px; font-weight: 800; }
-  .med-stock div { font-size: 11px; color: var(--grey); }
-  .progress-wrap { height: 7px; border-radius: 20px; background: var(--track); overflow: hidden; margin-top: 14px; }
-  .progress-bar { height: 100%; border-radius: 20px; transition: width .3s; }
-  .med-bottom { display: flex; align-items: center; margin-top: 8px; }
-  .med-min { font-size: 11px; color: var(--grey); }
-  .med-flag { margin-left: auto; font-size: 11px; font-weight: 700; }
-  .med-flag.warn { color: #B07400; background: var(--amber-soft); padding: 4px 10px; border-radius: 30px; }
-  .med-flag.ok { color: var(--mint); }
-
-  /* ── STOCK PAGE (staff only) ── */
-  .stock-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
-  .stock-title { font-size: 24px; font-weight: 800; }
-  .stock-sub { font-size: 12px; color: var(--grey); margin-top: 4px; }
-  .add-btn { width: 46px; height: 46px; border-radius: 16px; background: var(--coral); color: #fff; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: auto; }
-  .add-btn svg { width: 20px; height: 20px; }
-  .filter-row { display: flex; gap: 10px; margin: 16px 0 18px; }
-  .filter-chip { padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; background: var(--surface); color: var(--grey); box-shadow: var(--shadow); transition: .2s; }
-  .filter-chip.active { background: var(--ink); color: var(--bg-top); box-shadow: none; }
-  .empty-state { text-align: center; padding: 50px 0; color: var(--grey); font-size: 13px; }
-
-  /* ── STAFF APPROVAL CARD ── */
-  .approval-card { background: var(--surface); border-radius: 22px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 12px; }
-  .approval-top { display: flex; align-items: center; gap: 12px; }
-  .approval-avatar { width: 42px; height: 42px; border-radius: 13px; background: var(--mint-soft); color: var(--mint); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .approval-avatar svg { width: 20px; height: 20px; }
-  .approval-name { font-size: 14px; font-weight: 700; }
-  .approval-time { font-size: 11px; color: var(--grey); margin-top: 1px; }
-  .approval-status { margin-left: auto; font-size: 10.5px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
-  .approval-status.pending  { background: var(--amber-soft); color: #B07400; }
-  .approval-status.approved { background: var(--mint-soft); color: var(--mint); }
-  .approval-status.rejected { background: #FFE3E0; color: #D9483D; }
-  .approval-items { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
-  .approval-tag { font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 20px; background: var(--chip-bg); color: var(--ink); }
-  .approval-actions { display: flex; gap: 10px; }
-  .approval-btn { flex: 1; padding: 10px; border-radius: 13px; font-size: 12.5px; font-weight: 700; }
-  .approval-btn.approve { background: var(--mint); color: #fff; }
-  .approval-btn.reject { background: #FFE3E0; color: #D9483D; }
-
-  /* ── STUDENT REQUEST FORM ── */
-  .med-select-item { display: flex; align-items: center; gap: 13px; background: var(--surface); border-radius: 18px; padding: 13px 14px; margin-bottom: 9px; box-shadow: var(--shadow); cursor: pointer; border: 2px solid transparent; transition: border-color .12s; }
-  .med-select-item.selected { border-color: var(--coral); }
-  .med-select-check { width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--line); flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; }
-  .med-select-check svg { width: 14px; height: 14px; display: none; }
-  .med-select-item.selected .med-select-check { background: var(--coral); border-color: var(--coral); }
-  .med-select-item.selected .med-select-check svg { display: block; }
-  .submit-btn { width: 100%; background: var(--coral); color: #fff; padding: 15px; border-radius: 16px; font-size: 14.5px; font-weight: 700; box-shadow: var(--shadow); margin-top: 4px; }
-  .my-req-card { background: var(--surface); border-radius: 18px; padding: 14px 16px; box-shadow: var(--shadow); margin-bottom: 10px; }
-  .my-req-top { display: flex; align-items: center; }
-  .my-req-time { font-size: 11px; color: var(--grey); }
-  .my-req-items { font-size: 13px; font-weight: 600; margin-top: 4px; }
-
-  /* ── PLACEHOLDER / PROFILE ── */
-  .placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; }
-  .placeholder-icon { width: 96px; height: 96px; border-radius: 32px; background: var(--surface); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; color: var(--coral); margin-bottom: 18px; }
-  .placeholder-icon svg { width: 44px; height: 44px; }
-  .placeholder-title { font-size: 20px; font-weight: 800; }
-  .placeholder-sub { font-size: 13px; color: var(--grey); margin-top: 6px; }
-  .logout-btn { margin-top: 24px; display: flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); color: var(--coral); font-size: 13px; font-weight: 700; }
-  .logout-btn svg { width: 16px; height: 16px; }
-  .theme-row-profile { margin-top: 14px; display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 30px; background: var(--surface); box-shadow: var(--shadow); color: var(--ink); font-size: 12.5px; font-weight: 700; }
-  .theme-row-profile svg { width: 15px; height: 15px; }
-
-  /* ── BOTTOM NAV ── */
-  .nav-bar { position: absolute; left: 20px; right: 20px; bottom: 22px; background: var(--surface); border-radius: 28px; box-shadow: var(--shadow-nav); padding: 10px 8px; display: flex; justify-content: space-around; }
-  .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 12px; border-radius: 18px; color: var(--grey); transition: .2s; }
-  .nav-btn svg { width: 22px; height: 22px; }
-  .nav-btn span { font-size: 10px; font-weight: 500; }
-  .nav-btn.active { background: var(--coral-soft); color: var(--coral); }
-  .nav-btn.active span { font-weight: 700; }
-
-  /* ── TOAST ── */
-  .toast { position: absolute; left: 20px; right: 20px; bottom: 100px; background: var(--ink); color: var(--bg-top); padding: 14px 18px; border-radius: 14px; font-size: 13px; text-align: center; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: .25s; pointer-events: none; z-index: 999; }
-  .toast.show { opacity: 1; transform: translateY(0); }
-</style>
-</head>
-<body>
-
-<!-- LOGIN -->
-<div class="screen active" id="screen-login">
-  <div class="screen-topbar"><button class="theme-btn" id="loginThemeBtn" onclick="toggleTheme()"></button></div>
-  <div class="login-box">
-    <div class="login-logo">${ICON.pharmacy}</div>
-    <div class="login-title">MediCare Station</div>
-    <div class="login-sub">เข้าสู่ระบบเพื่อดำเนินการต่อ</div>
-    <div class="login-role-row">
-      <button class="role-toggle active" id="roleStaffBtn" onclick="setRole('staff')">เจ้าหน้าที่</button>
-      <button class="role-toggle" id="roleStudentBtn" onclick="setRole('student')">นักศึกษา</button>
-    </div>
-    <div class="login-fields">
-      <div class="field-box">${ICON.user}<input id="loginUser" placeholder="ชื่อผู้ใช้ / รหัสนักศึกษา"></div>
-      <div class="field-box">
-        ${ICON.lock}<input id="loginPass" type="password" placeholder="รหัสผ่าน" onkeydown="if(event.key==='Enter')doLogin()">
-        <button class="field-eye" onclick="togglePw()" id="eyeBtn">${ICON.eye}</button>
-      </div>
-    </div>
-    <div class="login-error" id="loginError"></div>
-    <button class="login-btn" onclick="doLogin()">เข้าสู่ระบบ</button>
-    <div class="login-hint">ทดลองใช้: กรอกชื่อผู้ใช้และรหัสผ่านอะไรก็ได้</div>
-  </div>
-</div>
-
-<!-- APP -->
-<div class="screen" id="app">
-  <div class="page active" id="page-home"></div>
-  <div class="page" id="page-stock"></div>
-  <div class="page" id="page-request"></div>
-  <div class="page" id="page-profile"></div>
-  <div class="nav-bar" id="navBar"></div>
-</div>
-
-<div class="toast" id="toast"></div>
+<div id="app" class="hide">
+<div class="mtop"><span>💊 MediCare · <span id="mun"></span></span><button onclick="location.reload()">ออกจากระบบ</button></div>
+<div class="shell">
+<aside class="side"><div class="brand"><b>💊 MediCare Station</b><span>ระบบเบิกจ่ายยาสามัญ</span></div>
+<nav id="nav"></nav>
+<div class="who"><b id="un"></b><span id="ur"></span><button class="nb" style="margin-top:8px;padding:6px 10px;font-size:13px" onclick="location.reload()">↺ ออกจากระบบ</button></div></aside>
+<main class="main"><h2 id="pt"></h2><p class="sub" id="ps"></p><div id="view"></div></main>
+</div></div>
+<div id="mr"></div>
 
 <script>
-// ── ICONS ──
-const S = 'fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"';
-const ICON = {
-  pharmacy:      `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M4.5 14.5l7-7a4.95 4.95 0 117 7l-7 7a4.95 4.95 0 01-7-7z"/><line x1="9" y1="9" x2="14.5" y2="14.5"/></svg>`,
-  bell:          `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M6 8a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M9.5 21a2.5 2.5 0 005 0"/></svg>`,
-  search:        `<svg class="ico" viewBox="0 0 24 24" ${S}><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
-  plus:          `<svg class="ico" viewBox="0 0 24 24" ${S}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-  arrowRight:    `<svg class="ico" viewBox="0 0 24 24" ${S}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13,6 19,12 13,18"/></svg>`,
-  warning:       `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M12 4L3 20h18L12 4z"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="12" y1="17" x2="12" y2="17.01"/></svg>`,
-  medkit:        `<svg class="ico" viewBox="0 0 24 24" ${S}><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="9.5" y1="13.5" x2="14.5" y2="13.5"/></svg>`,
-  clipboard:     `<svg class="ico" viewBox="0 0 24 24" ${S}><rect x="6" y="4" width="12" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></svg>`,
-  chart:         `<svg class="ico" viewBox="0 0 24 24" ${S}><polyline points="3,17 9,11 13,15 21,6"/><polyline points="15,6 21,6 21,12"/></svg>`,
-  arrowDownLeft: `<svg class="ico" viewBox="0 0 24 24" ${S}><line x1="17" y1="7" x2="7" y2="17"/><polyline points="7,9 7,17 15,17"/></svg>`,
-  hourglass:     `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M6 3h12"/><path d="M6 21h12"/><path d="M7 3c0 5 5 6 5 9s-5 4-5 9"/><path d="M17 3c0 5-5 6-5 9s5 4 5 9"/></svg>`,
-  home:          `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M4 11l8-7 8 7"/><path d="M6 10v10h5v-6h2v6h5V10"/></svg>`,
-  box:           `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 8v9l9 5 9-5V8"/><line x1="12" y1="13" x2="12" y2="22"/></svg>`,
-  user:          `<svg class="ico" viewBox="0 0 24 24" ${S}><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>`,
-  droplet:       `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M12 3s6 7 6 11a6 6 0 11-12 0c0-4 6-11 6-11z"/></svg>`,
-  bandage:       `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M4.5 12a4.5 4.5 0 014.5-4.5h1v9H9A4.5 4.5 0 014.5 12z"/><path d="M19.5 12a4.5 4.5 0 00-4.5-4.5h-1v9h1a4.5 4.5 0 004.5-4.5z"/><line x1="9" y1="12" x2="15" y2="12"/></svg>`,
-  activity:      `<svg class="ico" viewBox="0 0 24 24" ${S}><polyline points="2,12 7,12 9,6 13,18 15,12 22,12"/></svg>`,
-  thermometer:   `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M12 14V4a2 2 0 10-4 0v10a4 4 0 104 0z"/></svg>`,
-  grid:          `<svg class="ico" viewBox="0 0 24 24" ${S}><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`,
-  lock:          `<svg class="ico" viewBox="0 0 24 24" ${S}><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>`,
-  eye:           `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>`,
-  eyeOff:        `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M2 12s4-7 10-7c2 0 3.6.5 5 1.3M22 12s-4 7-10 7c-2 0-3.6-.5-5-1.3"/><path d="M9.9 9.9a3 3 0 104.2 4.2"/><line x1="3" y1="3" x2="21" y2="21"/></svg>`,
-  logout:        `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>`,
-  check:         `<svg class="ico" viewBox="0 0 24 24" ${S}><polyline points="4,12 9,17 20,6"/></svg>`,
-  x:             `<svg class="ico" viewBox="0 0 24 24" ${S}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-  cap:           `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M6 10.5V16c0 1.2 2.7 3 6 3s6-1.8 6-3v-5.5"/><line x1="22" y1="8" x2="22" y2="14"/></svg>`,
-  moon:          `<svg class="ico" viewBox="0 0 24 24" ${S}><path d="M20 14.5A8.5 8.5 0 119.5 4a7 7 0 0010.5 10.5z"/></svg>`,
-  sun:           `<svg class="ico" viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="4"/><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/><line x1="4.6" y1="4.6" x2="6.4" y2="6.4"/><line x1="17.6" y1="17.6" x2="19.4" y2="19.4"/><line x1="4.6" y1="19.4" x2="6.4" y2="17.6"/><line x1="17.6" y1="6.4" x2="19.4" y2="4.6"/></svg>`,
-};
-document.body.innerHTML = document.body.innerHTML.replace(/\$\{ICON\.(\w+)\}/g, (m, k) => ICON[k] || '');
+var API='https://script.google.com/macros/s/AKfycbzlr9yyk_BD2uyaSNmPGSLNPNP3Q6jRAqI1NK6tPihk5oH3RWqJzT2saNhbAEqxRoFrCA/exec';
+var S={user:null,meds:[],reqs:[],page:'',cart:{},symptom:'',q:'',cat:'ทั้งหมด'},AUTH={name:'',role:'student',code:''},busy=false,V={};
+var $=function(i){return document.getElementById(i)};
+async function api(a,d){var r=await fetch(API,{method:'POST',body:JSON.stringify(Object.assign({action:a},d||{}))});var j=await r.json();if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data}
+function errm(e){return e.message==='Failed to fetch'?'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้':e.message}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function toast(m,er){var t=document.createElement('div');t.className='toast'+(er?' er':'');t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},3000)}
+function oc(f,id){return 'onclick="'+f+"('"+esc(id)+"')\""}
+function medOf(id){return S.meds.filter(function(m){return m.id===id})[0]}
+function img(m){return(m.image_url?'<img loading="lazy" src="'+esc(m.image_url)+'" onerror="this.remove()">':'')+'💊'}
+function tg(s){return s=='approved'?'<span class="tag ok">จ่ายยาแล้ว</span>':s=='rejected'?'<span class="tag bad">ปฏิเสธ</span>':'<span class="tag wait">รออนุมัติ</span>'}
+function its(a){return a.map(function(i){return esc(i.name)+' × '+i.qty}).join(', ')}
+var PG={student:[['meds','💊','เบิกยา','เลือกยาแล้วส่งคำขอให้เจ้าหน้าที่'],['mine','📋','คำขอของฉัน','ติดตามสถานะคำขอที่ส่งไปแล้ว']],
+staff:[['dash','🏠','หน้าแรก','สรุปภาพรวมวันนี้'],['pending','📋','คำขอ','ตรวจสอบและอนุมัติการจ่ายยา'],['stock','📦','คลังยา','จำนวนคงเหลือ เติมสต็อก และแก้ไขข้อมูลยา'],['hist','🕘','ประวัติ','รายการย้อนหลังทั้งหมด']]};
 
-const C = { coral:'#FF7A59', mint:'#2FB693', amber:'#FFB020', indigo:'#7C83FF', blue:'#4CAFEF', teal:'#00BFA6' };
+/* ---- login ---- */
+function setRole(r){AUTH.role=r;$('t_student').classList.toggle('on',r=='student');$('t_staff').classList.toggle('on',r=='staff');$('cf').classList.toggle('hide',r!='staff');$('ge').textContent=''}
+async function enter(){
+ var n=$('gn').value.trim(),c=$('gc').value.trim(),e=$('ge');e.textContent='';
+ if(!n){e.textContent='กรุณากรอกชื่อ-นามสกุล';return}
+ if(AUTH.role=='staff'&&!c){e.textContent='กรุณากรอกรหัสเจ้าหน้าที่';return}
+ AUTH.name=n;AUTH.code=AUTH.role=='staff'?c:'';
+ var b=$('eb');b.disabled=true;b.textContent='กำลังตรวจสอบ…';
+ try{var d=await api('login',{name:n,role:AUTH.role,code:AUTH.code});
+  S.user=d.user;S.meds=d.medicines;S.reqs=d.requests;S.page=PG[AUTH.role][0][0];
+  $('gate').classList.add('hide');$('app').classList.remove('hide');
+  $('un').textContent=n;$('mun').textContent=n;$('ur').textContent=AUTH.role=='staff'?'เจ้าหน้าที่พยาบาล':'นักศึกษา';render()}
+ catch(x){e.textContent=errm(x)}
+ b.disabled=false;b.textContent='เข้าสู่ระบบ';
+}
+async function reload(){var d=await api('refresh',{name:AUTH.name,role:AUTH.role,code:AUTH.code});S.meds=d.medicines;S.reqs=d.requests;render()}
+async function act(a,d,msg,after){if(busy)return;busy=true;try{await api(a,d);await reload();toast(msg);if(after)after()}catch(e){toast(errm(e),1)}busy=false}
+function go(p){S.page=p;render();scrollTo(0,0);reload().catch(function(){})}
 
-// ── THEME ──
-const THEME_KEY = 'medicare_theme';
-let currentTheme = localStorage.getItem(THEME_KEY) || 'light';
-function applyTheme(theme) {
-  currentTheme = theme;
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem(THEME_KEY, theme);
-  const btn = document.getElementById('loginThemeBtn');
-  if (btn) btn.innerHTML = theme === 'dark' ? ICON.sun : ICON.moon;
+/* ---- layout ---- */
+function render(){
+ var L=PG[AUTH.role],p=L.filter(function(x){return x[0]==S.page})[0]||L[0],pc=S.reqs.filter(function(r){return r.status=='pending'}).length;
+ $('nav').innerHTML=L.map(function(x){return '<button class="nb'+(S.page==x[0]?' on':'')+'" '+"onclick=\"go('"+x[0]+"')\""+'><span class="ic">'+x[1]+'</span><span>'+x[2]+'</span>'+(x[0]=='pending'&&pc?'<span class="bd">'+pc+'</span>':'')+'</button>'}).join('');
+ $('pt').textContent=p[2];$('ps').textContent=p[3];$('view').innerHTML=V[p[0]]();
+ if(p[0]=='meds')drawMeds();cartUpd();
 }
-function toggleTheme() {
-  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
-  if (document.getElementById('app').classList.contains('active')) {
-    renderHome(); renderStock(); renderRequestPage(); renderProfile();
-  }
-}
-applyTheme(currentTheme);
+function modal(h){$('mr').innerHTML='<div class="mw" onclick="if(event.target==this)closeM()"><div class="mcard"><button class="mx" onclick="closeM()">×</button>'+h+'</div></div>'}
+function closeM(){$('mr').innerHTML=''}
 
-// ── DATA ──
-const medicines = [
-  { id:0, name:'พาราเซตามอล 500mg', usage:'ปวดหัว, ลดไข้',        stock:8,  minStock:10, icon:'pharmacy', color:C.coral },
-  { id:1, name:'ยาแก้แพ้ (CPM)',     usage:'คัน, ผื่นลมพิษ',       stock:24, minStock:10, icon:'bandage',  color:C.mint },
-  { id:2, name:'ยาลดกรด',           usage:'จุกเสียด, แสบหน้าอก',   stock:3,  minStock:10, icon:'droplet',  color:C.amber },
-  { id:3, name:'ยาแก้ปวดกล้ามเนื้อ', usage:'ปวดหลัง, ปวดข้อ',       stock:15, minStock:8,  icon:'activity', color:C.indigo },
-  { id:4, name:'พลาสเตอร์ยา',       usage:'แผลถลอก',              stock:42, minStock:15, icon:'medkit',   color:C.blue },
-  { id:5, name:'น้ำเกลือล้างแผล',   usage:'ทำความสะอาดแผล',        stock:5,  minStock:8,  icon:'droplet',  color:C.teal },
-];
-medicines.forEach(m => {
-  m.isLow = m.stock <= m.minStock;
-  m.ratio = Math.min(1, Math.max(0.05, m.stock / (m.minStock * 2.5)));
-});
-const categories = [
-  { label:'แก้ปวด', icon:'pharmacy',    color:C.coral },
-  { label:'ลดไข้',  icon:'thermometer', color:C.indigo },
-  { label:'แก้แพ้',  icon:'bandage',     color:C.mint },
-  { label:'ทำแผล',  icon:'medkit',      color:C.blue },
-  { label:'อื่น ๆ',  icon:'grid',        color:C.amber },
-];
-let pendingApprovals = [
-  { student:'สมชาย ใจดี',   items:['พาราเซตามอล 500mg','ยาแก้แพ้ (CPM)'], time:'09:20 น.', status:'pending' },
-  { student:'วรากรณ์ สุขใจ', items:['ยาลดกรด'],                          time:'10:05 น.', status:'pending' },
-  { student:'ปิยะดา แสงจันทร์', items:['พลาสเตอร์ยา','น้ำเกลือล้างแผล'], time:'10:40 น.', status:'pending' },
-  { student:'ธนกร ทองดี',   items:['ยาแก้ปวดกล้ามเนื้อ'],               time:'11:02 น.', status:'approved' },
-  { student:'ณัฐพล เพียรดี', items:['พาราเซตามอล 500mg'],               time:'08:55 น.', status:'rejected' },
-];
-let myRequests = [];
-let selectedMedIds = new Set();
-let currentRole = 'staff';
-let currentUser = '';
+/* ---- student: medicines + cart ---- */
+V.meds=function(){var cats=['ทั้งหมด'];S.meds.forEach(function(m){if(m.category&&cats.indexOf(m.category)<0)cats.push(m.category)});
+ return '<div class="cols"><div><div class="flt"><input type="text" placeholder="ค้นหาชื่อยาหรืออาการ" value="'+esc(S.q)+'" oninput="S.q=this.value;drawMeds()"><select onchange="S.cat=this.value;drawMeds()">'+cats.map(function(c){return '<option'+(c==S.cat?' selected':'')+'>'+esc(c)+'</option>'}).join('')+'</select></div><div id="ml" class="mg"></div></div><div class="card cartpanel" id="cartbox"></div></div><button class="fab" onclick="openCart()">🛒 <span id="fabn"></span></button>'};
+function drawMeds(){var q=S.q.toLowerCase();
+ var l=S.meds.filter(function(m){return(S.cat=='ทั้งหมด'||m.category==S.cat)&&(!q||(m.name+m.category+m.symptoms+m.note).toLowerCase().indexOf(q)>=0)});
+ $('ml').innerHTML=l.length?l.map(function(m){return '<div class="mc"><div class="im" '+oc('detail',m.id)+'>'+img(m)+'</div><div style="padding:10px 12px;flex:1;display:flex;flex-direction:column;gap:3px"><b class="clk" '+oc('detail',m.id)+'>'+esc(m.name)+'</b><span class="soft">'+esc(m.symptoms||m.category)+'</span><div class="row" style="margin-top:auto;padding-top:6px;justify-content:space-between"><span class="soft">เหลือ '+m.stock+' '+esc(m.unit)+'</span>'+(m.stock>0?'<button class="btn sm" '+oc('addCart',m.id)+'>เพิ่ม</button>':'<span class="tag bad">หมด</span>')+'</div></div></div>'}).join(''):'<div class="empty" style="grid-column:1/-1">ไม่พบรายการยา</div>'}
+function cartHtml(){var ids=Object.keys(S.cart),h='<b>🛒 คำขอเบิกยา</b>';
+ if(!ids.length)return h+'<div class="empty">ยังไม่ได้เลือกยา<br>กด “เพิ่ม” จากรายการยา</div>';
+ h+=ids.map(function(id){var m=medOf(id);return '<div class="row cr"><span style="flex:1">'+esc(m.name)+'</span><input type="number" min="1" max="'+m.stock+'" value="'+S.cart[id]+'" onchange="setQty(\''+id+'\',this.value)"><button class="btn sm no" '+oc('delCart',id)+'>ลบ</button></div>'}).join('');
+ return h+'<div style="margin:12px 0 4px"><label>อาการ</label><textarea rows="3" placeholder="เช่น ปวดหัว มีไข้ตั้งแต่เมื่อคืน" oninput="S.symptom=this.value">'+esc(S.symptom)+'</textarea></div><button class="btn" style="width:100%;margin-top:8px" onclick="send()">ส่งคำขอเบิกยา</button>'}
+function cartUpd(){var b=$('cartbox');if(b)b.innerHTML=cartHtml();var n=Object.keys(S.cart).length,f=$('fabn');if(f)f.textContent=n?n+' รายการ':'ตะกร้า';var c=$('cartm');if(c)c.innerHTML=cartHtml()}
+function openCart(){modal('<div id="cartm">'+cartHtml()+'</div>')}
+function addCart(id){if(!S.cart[id])S.cart[id]=1;cartUpd();toast('เพิ่มลงคำขอแล้ว')}
+function setQty(id,v){var m=medOf(id);S.cart[id]=Math.max(1,Math.min(Number(v)||1,m.stock));cartUpd()}
+function delCart(id){delete S.cart[id];cartUpd()}
+function send(){var items=Object.keys(S.cart).map(function(id){return{med_id:id,qty:S.cart[id]}});
+ if(!items.length)return toast('ยังไม่ได้เลือกยา',1);if(!S.symptom.trim())return toast('กรุณาระบุอาการ',1);
+ act('submitRequest',{payload:{name:AUTH.name,symptom:S.symptom,items:items}},'ส่งคำขอแล้ว',function(){S.cart={};S.symptom='';closeM();go('mine')})}
+V.mine=function(){return S.reqs.length?S.reqs.map(function(r){return '<div class="card"><div class="row"><b>'+esc(r.req_id)+'</b><span class="soft">'+esc(r.timestamp)+'</span><span style="margin-left:auto">'+tg(r.status)+'</span></div><div style="margin-top:6px">'+its(r.items)+'</div>'+(r.symptom?'<div class="soft">อาการ: '+esc(r.symptom)+'</div>':'')+'</div>'}).join(''):'<div class="card empty">ยังไม่มีคำขอ<br>ไปที่หน้า “เบิกยา” เพื่อเริ่มต้น</div>'};
 
-// ── LOGIN ──
-function setRole(role) {
-  currentRole = role;
-  document.getElementById('roleStaffBtn').classList.toggle('active', role === 'staff');
-  document.getElementById('roleStudentBtn').classList.toggle('active', role === 'student');
-}
-function togglePw() {
-  const pw = document.getElementById('loginPass');
-  const eyeBtn = document.getElementById('eyeBtn');
-  const show = pw.type === 'password';
-  pw.type = show ? 'text' : 'password';
-  eyeBtn.innerHTML = show ? ICON.eyeOff : ICON.eye;
-}
-function doLogin() {
-  const user = document.getElementById('loginUser').value.trim();
-  const pass = document.getElementById('loginPass').value.trim();
-  const err = document.getElementById('loginError');
-  if (!user || !pass) { err.textContent = 'กรุณากรอกชื่อผู้ใช้และรหัสผ่าน'; return; }
-  err.textContent = '';
-  currentUser = user;
-  document.getElementById('screen-login').classList.remove('active');
-  document.getElementById('app').classList.add('active');
-  applyRoleUI();
-}
-function logout() {
-  document.getElementById('loginUser').value = '';
-  document.getElementById('loginPass').value = '';
-  document.getElementById('loginError').textContent = '';
-  document.getElementById('app').classList.remove('active');
-  document.getElementById('screen-login').classList.add('active');
-}
+/* ---- detail modal ---- */
+function detail(id){var m=medOf(id);if(!m)return;
+ function r(l,v){return v?'<div class="mrow"><div class="soft">'+l+'</div>'+esc(v)+'</div>':''}
+ modal('<div class="im" style="height:170px;border-radius:10px;margin-bottom:12px;font-size:48px">'+img(m)+'</div><b style="font-size:18px">'+esc(m.name)+'</b><div class="soft">'+esc(m.category)+' · คงเหลือ '+m.stock+' '+esc(m.unit)+'</div><div style="margin-top:8px">'+r('อาการที่ใช้รักษา',m.symptoms)+r('วิธีและเวลารับประทาน',m.dosage)+r('ข้อควรระวัง',m.precautions)+r('หมายเหตุ',m.note)+'</div>'
+ +(AUTH.role=='staff'?'<button class="btn gh" style="width:100%;margin-top:14px" '+oc('medForm',m.id)+'>แก้ไขข้อมูล / เปลี่ยนรูป</button>':(m.stock>0?'<button class="btn" style="width:100%;margin-top:14px" onclick="addCart(\''+esc(m.id)+'\');closeM()">เพิ่มลงคำขอ</button>':'')))}
 
-// ── ROLE-BASED UI ──
-function applyRoleUI() {
-  renderNav();
-  renderHome();
-  renderStock();
-  renderRequestPage();
-  renderProfile();
-  switchPage('home');
-}
-function renderNav() {
-  const staffNav = `
-    <button class="nav-btn active" data-page="home" onclick="switchPage('home')">${ICON.home}<span>หน้าแรก</span></button>
-    <button class="nav-btn" data-page="stock" onclick="switchPage('stock')">${ICON.box}<span>คลังยา</span></button>
-    <button class="nav-btn" data-page="request" onclick="switchPage('request')">${ICON.clipboard}<span>คำขอ</span></button>
-    <button class="nav-btn" data-page="profile" onclick="switchPage('profile')">${ICON.user}<span>บัญชี</span></button>`;
-  const studentNav = `
-    <button class="nav-btn active" data-page="home" onclick="switchPage('home')">${ICON.home}<span>หน้าแรก</span></button>
-    <button class="nav-btn" data-page="request" onclick="switchPage('request')">${ICON.medkit}<span>ขอเบิกยา</span></button>
-    <button class="nav-btn" data-page="profile" onclick="switchPage('profile')">${ICON.user}<span>บัญชี</span></button>`;
-  document.getElementById('navBar').innerHTML = currentRole === 'staff' ? staffNav : studentNav;
-}
-function switchPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.page === name));
-}
+/* ---- staff ---- */
+V.dash=function(){var t=new Date(),p=function(n){return('0'+n).slice(-2)},td=t.getFullYear()+'-'+p(t.getMonth()+1)+'-'+p(t.getDate());
+ var pend=S.reqs.filter(function(r){return r.status=='pending'}).length,today=S.reqs.filter(function(r){return String(r.timestamp).indexOf(td)==0}).length,ap=S.reqs.filter(function(r){return r.status=='approved'}).length,low=S.meds.filter(function(m){return m.stock<=m.min_stock});
+ function st(n,l){return '<div class="stat"><b>'+n+'</b><span class="soft">'+l+'</span></div>'}
+ var h='<div class="g4">'+st(pend,'รออนุมัติ')+st(today,'คำขอวันนี้')+st(ap,'จ่ายยาแล้วสะสม')+st(low.length,'ยาใกล้หมด')+'</div>';
+ if(low.length)h+='<div class="card" style="background:var(--amb);border-color:#f0d9b5"><b style="color:var(--am)">⚠️ ยาที่ควรเติมสต็อก</b>'+low.map(function(m){return '<div style="padding:4px 0">'+esc(m.name)+' — เหลือ <b>'+m.stock+' '+esc(m.unit)+'</b> <span class="soft">(ขั้นต่ำ '+m.min_stock+')</span></div>'}).join('')+'</div>';
+ return h+'<div class="card"><b>คำขอล่าสุด</b>'+(S.reqs.length?S.reqs.slice(0,6).map(function(r){return '<div class="row cr"><div style="flex:1"><b>'+esc(r.student_name)+'</b><div class="soft">'+esc(r.timestamp)+' · '+its(r.items)+'</div></div>'+tg(r.status)+'</div>'}).join(''):'<div class="empty">ยังไม่มีคำขอ</div>')+'</div>'};
+V.pending=function(){var l=S.reqs.filter(function(r){return r.status=='pending'});if(!l.length)return '<div class="card empty">ไม่มีคำขอค้างอยู่ 🎉</div>';
+ return l.map(function(r){return '<div class="card"><div class="row" style="flex-wrap:wrap"><div style="flex:1"><b>'+esc(r.student_name)+'</b><div class="soft">'+esc(r.req_id)+' · '+esc(r.timestamp)+'</div></div><button class="btn no sm" onclick="decide(\''+esc(r.req_id)+'\',\'rejected\')">ปฏิเสธ</button><button class="btn sm" onclick="decide(\''+esc(r.req_id)+'\',\'approved\')">อนุมัติและจ่ายยา</button></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid #edf5f3">'
+ +r.items.map(function(i){var m=medOf(i.med_id);return '<div>'+esc(i.name)+' × <b>'+i.qty+'</b>'+(m?' <span class="soft">(คลังเหลือ '+m.stock+')</span>':'')+(m&&i.qty>m.stock?' <span class="tag bad">สต็อกไม่พอ</span>':'')+'</div>'}).join('')+(r.symptom?'<div class="soft" style="margin-top:6px">อาการ: '+esc(r.symptom)+'</div>':'')+'</div></div>'}).join('')};
+function decide(id,d){if(!confirm(d=='approved'?'ยืนยันอนุมัติและตัดสต็อกตามคำขอนี้?':'ยืนยันปฏิเสธคำขอนี้?'))return;
+ act('decideRequest',{reqId:id,decision:d,staffName:AUTH.name,code:AUTH.code},d=='approved'?'อนุมัติและตัดสต็อกแล้ว':'ปฏิเสธคำขอแล้ว')}
+V.stock=function(){return '<div style="text-align:right;margin-bottom:12px"><button class="btn" onclick="medForm()">+ เพิ่มยาชนิดใหม่</button></div>'+S.meds.map(function(m){var low=m.stock<=m.min_stock;
+ return '<div class="card row" style="flex-wrap:wrap"><div class="im thumb" '+oc('detail',m.id)+'>'+img(m)+'</div><div style="flex:1;min-width:150px"><b class="clk" '+oc('detail',m.id)+'>'+esc(m.name)+'</b><div class="soft">'+esc(m.category)+' · เหลือ <b>'+m.stock+'</b> '+esc(m.unit)+' (ขั้นต่ำ '+m.min_stock+') '+(low?'<span class="tag wait">ใกล้หมด</span>':'')+'</div></div><div class="row" style="gap:6px"><input type="number" min="1" id="rs_'+esc(m.id)+'" placeholder="จำนวน" style="width:90px"><button class="btn sm gh" '+oc('restock',m.id)+'>เติม</button></div></div>'}).join('')};
+function restock(id){var n=Number($('rs_'+id).value);if(!n||n<=0)return toast('ใส่จำนวนที่จะเติมก่อน',1);act('restock',{medId:id,qty:n,staffName:AUTH.name,code:AUTH.code},'เติมสต็อกแล้ว')}
+V.hist=function(){var l=S.reqs.filter(function(r){return r.status!='pending'});if(!l.length)return '<div class="card empty">ยังไม่มีประวัติการจ่ายยา</div>';
+ return l.map(function(r){return '<div class="card"><div class="row"><b>'+esc(r.student_name)+'</b><span class="soft">'+esc(r.req_id)+'</span><span style="margin-left:auto">'+tg(r.status)+'</span></div><div style="margin-top:4px">'+its(r.items)+'</div><div class="soft">'+esc(r.timestamp)+(r.approved_by?' · โดย '+esc(r.approved_by):'')+'</div></div>'}).join('')};
 
-// ── HOME PAGE ──
-function themeBtnHTML() { return `<button class="theme-btn" onclick="toggleTheme()">${currentTheme === 'dark' ? ICON.sun : ICON.moon}</button>`; }
-
-function renderHome() {
-  const el = document.getElementById('page-home');
-  if (currentRole === 'staff') {
-    const low = medicines.filter(m => m.isLow);
-    el.innerHTML = `
-      <div class="header-row">
-        <div class="header-badge">${ICON.pharmacy}</div>
-        <div><div class="header-greet">สวัสดีตอนเช้า</div><div class="header-title">ห้องพยาบาล มหาวิทยาลัย</div></div>
-        <div class="header-actions">${themeBtnHTML()}<div class="bell-wrap">${ICON.bell}<div class="bell-dot"></div></div></div>
-      </div>
-      <div class="search-box">${ICON.search}<input placeholder="ค้นหายา หรือ อาการ..."></div>
-      <div class="promo-card">
-        <div class="promo-text">
-          <div class="promo-pill">ไม่ต้องจดกระดาษ</div>
-          <div class="promo-title">มียาใกล้หมด<br>ตรวจสอบสต็อกวันนี้</div>
-          <div class="promo-sub">กด "ดูรายการ" เพื่อเช็คสต็อกทั้งหมด</div>
-          <button class="promo-btn" onclick="switchPage('stock')">ดูรายการ ${ICON.arrowRight}</button>
-        </div>
-        <div class="promo-icon-box">${ICON.medkit}</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-top">
-          <div class="summary-top-label">ยาคงคลังทั้งหมด</div>
-          <div class="summary-badge">${ICON.warning} ใกล้หมด ${low.length} ชนิด</div>
-        </div>
-        <div class="summary-value"><b>97</b><span>ชิ้น / ${medicines.length} ชนิด</span></div>
-        <div class="action-row">
-          <button class="action-chip" onclick="toast('เติมสต็อก')">${ICON.plus}<span>เติมสต็อก</span></button>
-          <button class="action-chip" onclick="switchPage('request')">${ICON.clipboard}<span>อนุมัติ</span></button>
-          <button class="action-chip" onclick="toast('รายงานสถิติ')">${ICON.chart}<span>รายงาน</span></button>
-        </div>
-        <div class="divider"></div>
-        <div class="mini-stats">
-          <div class="mini-stat"><div class="mini-icon mint">${ICON.arrowDownLeft}</div><div><div class="mini-title">เบิกวันนี้</div><div class="mini-value">18 ครั้ง</div></div></div>
-          <div class="mini-stat"><div class="mini-icon coral">${ICON.hourglass}</div><div><div class="mini-title">รออนุมัติ</div><div class="mini-value">${pendingApprovals.filter(r=>r.status==='pending').length} รายการ</div></div></div>
-        </div>
-      </div>
-      <div class="section-row"><div class="section-title">หมวดยา</div><div class="section-action">ดูทั้งหมด</div></div>
-      <div class="category-row">${categories.map(c => `
-        <div class="category-item"><div class="category-icon" style="color:${c.color}">${ICON[c.icon]}</div><div class="category-label">${c.label}</div></div>`).join('')}</div>
-      <div class="section-row"><div class="section-title">ยาใกล้หมด (${low.length})</div><div class="section-action" onclick="switchPage('stock')">จัดการ</div></div>
-      ${low.map(medCardHTML).join('') || `<div class="empty-state">ไม่มียาใกล้หมดในตอนนี้</div>`}
-    `;
-  } else {
-    el.innerHTML = `
-      <div class="header-row">
-        <div class="header-badge coral">${ICON.cap}</div>
-        <div><div class="header-greet">สวัสดี</div><div class="header-title">${currentUser}</div></div>
-        <div class="header-actions">${themeBtnHTML()}<div class="bell-wrap">${ICON.bell}<div class="bell-dot"></div></div></div>
-      </div>
-      <div class="search-box">${ICON.search}<input placeholder="ค้นหาอาการ เช่น ปวดหัว, คัน..."></div>
-      <div class="promo-card mint">
-        <div class="promo-text">
-          <div class="promo-pill mint">ไม่ต้องต่อคิว</div>
-          <div class="promo-title">ไม่สบาย?<br>เบิกยาได้ใน 30 วินาที</div>
-          <div class="promo-sub">แจ้งอาการ เลือกยา แล้วรอเจ้าหน้าที่อนุมัติ</div>
-          <button class="promo-btn mint" onclick="switchPage('request')">ขอเบิกยา ${ICON.arrowRight}</button>
-        </div>
-        <div class="promo-icon-box mint">${ICON.medkit}</div>
-      </div>
-      <div class="section-row"><div class="section-title">อาการที่พบบ่อย</div></div>
-      <div class="category-row">${categories.map(c => `
-        <div class="category-item" onclick="switchPage('request')" style="cursor:pointer"><div class="category-icon" style="color:${c.color}">${ICON[c.icon]}</div><div class="category-label">${c.label}</div></div>`).join('')}</div>
-      <div class="section-row"><div class="section-title">คำขอล่าสุดของฉัน</div></div>
-      ${myRequests.length ? myRequests.slice(0,3).map(myReqCardHTML).join('') : `<div class="empty-state">ยังไม่มีคำขอเบิกยา</div>`}
-    `;
-  }
-}
-
-// ── MEDICINE CARD ──
-function medCardHTML(m) {
-  return `
-  <div class="med-card ${m.isLow ? 'low' : ''}" onclick="toast('รายละเอียด: ${m.name}')">
-    <div class="med-top">
-      <div class="med-icon" style="background:${hexA(m.color,.15)};color:${m.color}">${ICON[m.icon]}</div>
-      <div style="flex:1;min-width:0"><div class="med-name">${m.name}</div><div class="med-usage">${m.usage}</div></div>
-      <div class="med-stock"><b style="color:${m.isLow ? C.amber : 'var(--ink)'}">${m.stock}</b><div>ชิ้น</div></div>
-    </div>
-    <div class="progress-wrap"><div class="progress-bar" style="width:${m.ratio*100}%;background:${m.isLow ? C.amber : m.color}"></div></div>
-    <div class="med-bottom">
-      <div class="med-min">ขั้นต่ำ ${m.minStock} ชิ้น</div>
-      ${m.isLow ? `<div class="med-flag warn">${ICON.warning} ควรเติมสต็อก</div>` : `<div class="med-flag ok">เพียงพอ</div>`}
-    </div>
-  </div>`;
-}
-function hexA(hex, a) { const n = parseInt(hex.slice(1), 16); return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
-
-// ── STOCK PAGE (staff only) ──
-let stockFilter = 0;
-const filterLabels = ['ทั้งหมด', 'ใกล้หมด', 'เพียงพอ'];
-function renderStock() {
-  const el = document.getElementById('page-stock');
-  if (currentRole !== 'staff') { el.innerHTML = ''; return; }
-  el.innerHTML = `
-    <div class="stock-header">
-      <div><div class="stock-title">คลังยาสามัญ</div><div class="stock-sub">อัปเดตล่าสุด วันนี้ 09:45 น.</div></div>
-      <button class="add-btn" onclick="toast('เพิ่มรายการยาใหม่')">${ICON.plus}</button>
-    </div>
-    <div class="search-box">${ICON.search}<input id="stockSearch" placeholder="ค้นหายาในคลัง..." oninput="renderStockList()"></div>
-    <div class="filter-row" id="filterRow"></div>
-    <div id="stockList"></div>`;
-  renderFilterRow();
-  renderStockList();
-}
-function renderFilterRow() {
-  document.getElementById('filterRow').innerHTML = filterLabels.map((lbl, i) => `
-    <button class="filter-chip ${stockFilter === i ? 'active' : ''}" onclick="setFilter(${i})">${lbl}</button>`).join('');
-}
-function setFilter(i) { stockFilter = i; renderFilterRow(); renderStockList(); }
-function renderStockList() {
-  const kw = document.getElementById('stockSearch').value.trim();
-  const list = medicines.filter(m => {
-    const okFilter = stockFilter === 0 || (stockFilter === 1 && m.isLow) || (stockFilter === 2 && !m.isLow);
-    const okSearch = !kw || m.name.includes(kw) || m.usage.includes(kw);
-    return okFilter && okSearch;
-  });
-  document.getElementById('stockList').innerHTML = list.length ? list.map(medCardHTML).join('') : `<div class="empty-state">ไม่พบรายการยา</div>`;
-}
-
-// ── REQUEST PAGE ──
-function renderRequestPage() {
-  const el = document.getElementById('page-request');
-  if (currentRole === 'staff') {
-    el.innerHTML = `
-      <div class="section-row"><div class="section-title">คำขอเบิกยา</div><div class="section-action">${pendingApprovals.filter(r=>r.status==='pending').length} รอดำเนินการ</div></div>
-      <div id="approvalList"></div>`;
-    renderApprovalList();
-  } else {
-    el.innerHTML = `
-      <div class="section-row"><div class="section-title">เลือกยาที่ต้องการ</div></div>
-      <div id="medSelectList"></div>
-      <button class="submit-btn" onclick="submitRequest()">ส่งคำขอเบิกยา</button>
-      <div class="section-row"><div class="section-title">ประวัติคำขอของฉัน</div></div>
-      <div id="myReqList"></div>`;
-    renderMedSelectList();
-    renderMyReqList();
-  }
-}
-function renderApprovalList() {
-  document.getElementById('approvalList').innerHTML = pendingApprovals.map((r, i) => `
-    <div class="approval-card">
-      <div class="approval-top">
-        <div class="approval-avatar">${ICON.user}</div>
-        <div><div class="approval-name">${r.student}</div><div class="approval-time">${r.time}</div></div>
-        <div class="approval-status ${r.status}">${r.status === 'pending' ? 'รออนุมัติ' : r.status === 'approved' ? 'อนุมัติแล้ว' : 'ปฏิเสธแล้ว'}</div>
-      </div>
-      <div class="approval-items">${r.items.map(it => `<div class="approval-tag">${it}</div>`).join('')}</div>
-      ${r.status === 'pending' ? `
-      <div class="approval-actions">
-        <button class="approval-btn approve" onclick="setApproval(${i},'approved')">${ICON.check} อนุมัติ</button>
-        <button class="approval-btn reject" onclick="setApproval(${i},'rejected')">${ICON.x} ปฏิเสธ</button>
-      </div>` : ''}
-    </div>`).join('');
-}
-function setApproval(i, status) {
-  pendingApprovals[i].status = status;
-  renderApprovalList();
-  renderHome();
-  toast(status === 'approved' ? 'อนุมัติคำขอแล้ว' : 'ปฏิเสธคำขอแล้ว');
-}
-function renderMedSelectList() {
-  document.getElementById('medSelectList').innerHTML = medicines.map(m => `
-    <div class="med-select-item ${selectedMedIds.has(m.id) ? 'selected' : ''}" onclick="toggleMedSelect(${m.id})">
-      <div class="med-select-check">${ICON.check}</div>
-      <div><div class="med-name">${m.name}</div><div class="med-usage">${m.usage}</div></div>
-    </div>`).join('');
-}
-function toggleMedSelect(id) {
-  if (selectedMedIds.has(id)) selectedMedIds.delete(id); else selectedMedIds.add(id);
-  renderMedSelectList();
-}
-function submitRequest() {
-  if (selectedMedIds.size === 0) { toast('กรุณาเลือกยาอย่างน้อย 1 รายการ'); return; }
-  const items = medicines.filter(m => selectedMedIds.has(m.id)).map(m => m.name);
-  myRequests.unshift({ items, time: new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}) + ' น.', status: 'pending' });
-  selectedMedIds.clear();
-  renderMedSelectList();
-  renderMyReqList();
-  renderHome();
-  toast('ส่งคำขอเบิกยาแล้ว');
-}
-function myReqCardHTML(r) {
-  return `
-  <div class="my-req-card">
-    <div class="my-req-top">
-      <div class="my-req-time">${r.time}</div>
-      <div class="approval-status pending" style="margin-left:auto">รอเจ้าหน้าที่อนุมัติ</div>
-    </div>
-    <div class="my-req-items">${r.items.join(', ')}</div>
-  </div>`;
-}
-function renderMyReqList() {
-  document.getElementById('myReqList').innerHTML = myRequests.length ? myRequests.map(myReqCardHTML).join('') : `<div class="empty-state">ยังไม่มีคำขอเบิกยา</div>`;
-}
-
-// ── PROFILE PAGE ──
-function renderProfile() {
-  document.getElementById('page-profile').innerHTML = `
-    <div class="placeholder">
-      <div class="placeholder-icon">${currentRole === 'staff' ? ICON.user : ICON.cap}</div>
-      <div class="placeholder-title">${currentUser}</div>
-      <div class="placeholder-sub">${currentRole === 'staff' ? 'เจ้าหน้าที่ห้องพยาบาล' : 'นักศึกษา'}</div>
-      <button class="theme-row-profile" onclick="toggleTheme()">${currentTheme === 'dark' ? ICON.sun : ICON.moon} ${currentTheme === 'dark' ? 'โหมดกลางวัน' : 'โหมดกลางคืน'}</button>
-      <button class="logout-btn" onclick="logout()">${ICON.logout} ออกจากระบบ</button>
-    </div>`;
-}
-
-// ── TOAST ──
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(window._toastTimer);
-  window._toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-}
-</script>
-</body>
-</html>
+/* ---- add / edit medicine ---- */
+function medForm(id){var m=id?medOf(id):{};
+ function f(k,l,v){return '<div><label>'+l+'</label><input type="text" id="mf_'+k+'" value="'+esc(v)+'"></div>'}
+ function t(k,l,v){return '<div class="f"><label>'+l+'</label><textarea rows="2" id="mf_'+k+'">'+esc(v)+'</textarea></div>'}
+ modal('<b style="font-size:18px">'+(id?'แก้ไข: '+esc(m.name):'เพิ่มยาชนิดใหม่')+'</b><div class="ge" id="mfe"></div><div class="fg">'+f('name','ชื่อยา',m.name)+f('category','หมวด',m.category)+f('unit','หน่วยนับ (เม็ด/ซอง)',m.unit)+f('min_stock','สต็อกขั้นต่ำ',m.min_stock)+(id?'':f('stock','จำนวนเริ่มต้น',0))+t('symptoms','อาการที่ใช้รักษา',m.symptoms)+t('dosage','วิธีและเวลารับประทาน',m.dosage)+t('precautions','ข้อควรระวัง',m.precautions)+t('note','หมายเหตุ',m.note)
+ +'<div class="f"><label>รูปภาพยา</label><div class="im" id="mf_prev" style="height:120px;border-radius:10px;margin-bottom:8px">'+img(m)+'</div><input type="hidden" id="mf_img" value="'+esc(m.image_url)+'"><input type="file" accept="image/*" onchange="pickImg(this)"><div class="soft" id="mf_st"></div></div></div><button class="btn" style="width:100%;margin-top:14px" onclick="saveMed(\''+esc(id||'')+'\')">บันทึก</button>')}
+function pickImg(inp){var f=inp.files[0];if(!f)return;var st=$('mf_st');st.textContent='กำลังอัปโหลด…';var rd=new FileReader();
+ rd.onload=function(){var im=new Image();im.onload=async function(){var s=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  try{var r=await api('uploadImage',{base64:c.toDataURL('image/jpeg',.8).split(',')[1],mime:'image/jpeg',filename:f.name,staffName:AUTH.name,code:AUTH.code});$('mf_img').value=r.url;$('mf_prev').innerHTML='<img src="'+esc(r.url)+'">💊';st.textContent='อัปโหลดสำเร็จ (กดบันทึกด้วย)'}catch(e){st.textContent='อัปโหลดไม่สำเร็จ: '+errm(e)}};im.src=rd.result};rd.readAsDataURL(f)}
+function saveMed(id){var g=function(k){return $('mf_'+k).value.trim()},p={name:g('name'),category:g('category'),unit:g('unit'),min_stock:g('min_stock'),symptoms:g('symptoms'),dosage:g('dosage'),precautions:g('precautions'),note:g('note'),image_url:$('mf_img').value};
+ if(!p.name){$('mfe').textContent='กรุณากรอกชื่อยา';return}
+ if(id)act('updateMedicine',{medId:id,payload:p,staffName:AUTH.name,code:AUTH.code},'บันทึกแล้ว',closeM);
+ else{p.stock=g('stock');act('addMedicine',{payload:p,staffName:AUTH.name,code:AUTH.code},'เพิ่มยาแล้ว',closeM)}}
+</script></body></html>
