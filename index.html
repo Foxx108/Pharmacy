@@ -5,60 +5,73 @@
 <title>MediCare Station</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--g:#0f766e;--gd:#115e56;--gl:#e6f4f1;--line:#c4e3dd;--bg:#f7fbfa;--ink:#10302c;--soft:#4a6b66;--am:#b45309;--amb:#fef4e6;--ro:#9f1239;--rob:#fdf0f3}
+:root{--g:#0f766e;--gd:#115e56;--gl:#e6f4f1;--line:#c4e3dd;--bg:#f7fbfa;--ink:#10302c;--soft:#4a6b66;--am:#b45309;--amb:#fef4e6;--ro:#9f1239;--rob:#fdf0f3;--card:#fff;--line2:#edf5f3;--amline:#f0d9b5;--roline:#e9c4cf}
+html[data-theme=dark]{color-scheme:dark;--bg:#0c1615;--card:#15211f;--ink:#e6f2ef;--soft:#93b0aa;--g:#12a08f;--gd:#0e8a7b;--gl:#183531;--line:#274743;--line2:#1e332f;--am:#fbbf24;--amb:#33270e;--amline:#5b4519;--ro:#fb7185;--rob:#3a1a22;--roline:#5b2a37}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'IBM Plex Sans Thai',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6}
-button{font:inherit;cursor:pointer}input,select,textarea{font:inherit;width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:#fff;color:var(--ink)}
+button{font:inherit;cursor:pointer}input,select,textarea{font:inherit;width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:var(--card);color:var(--ink)}
 input[type=file]{border:0;padding:0}
 .hide{display:none!important}.soft{color:var(--soft);font-size:13px}.empty{text-align:center;color:var(--soft);padding:26px 0}.clk{cursor:pointer}.clk:hover{color:var(--g)}
 .shell{display:flex;min-height:100vh}
-.side{width:240px;flex-shrink:0;background:var(--g);color:#d7efea;padding:22px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
-.brand{padding:0 8px 18px;border-bottom:1px solid rgba(255,255,255,.16);margin-bottom:14px}.brand b{display:block;color:#fff;font-size:17px}.brand span{font-size:12.5px;color:#9fd3ca}
-.nb{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:#cfe9e4;padding:10px 12px;border-radius:9px;margin-bottom:2px;text-align:left;position:relative}
-.nb:hover{background:rgba(255,255,255,.1)}.nb.on{background:#fff;color:var(--g);font-weight:600}.ic{font-size:18px}
-.bd{margin-left:auto;background:#fbbf24;color:#422006;font-size:11.5px;font-weight:700;border-radius:99px;padding:0 7px}
-.who{margin-top:auto;padding:12px 8px 0;border-top:1px solid rgba(255,255,255,.16);font-size:12.5px}.who b{display:block;color:#fff;font-size:14px}
-.main{flex:1;min-width:0;padding:28px 32px 50px;max-width:1080px}.mtop{display:none}
+.side{position:fixed;left:16px;top:16px;bottom:16px;width:68px;background:#0b3d38;color:#cfe9e4;border-radius:28px;padding:12px 10px;display:flex;flex-direction:column;z-index:60;overflow:hidden;transition:width .3s;box-shadow:0 12px 30px rgba(11,61,56,.35)}
+.side:hover,.side.open{width:230px}
+.nb{display:flex;align-items:center;gap:14px;width:100%;height:46px;flex-shrink:0;background:none;border:0;color:#cfe9e4;padding:0 0 0 12px;border-radius:16px;margin-bottom:4px;text-align:left;position:relative;white-space:nowrap}
+.nb:hover{background:rgba(255,255,255,.1)}.nb.on{background:var(--card);color:var(--g);font-weight:600}
+.ic{width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.25s}.ic svg{width:22px;height:22px}
+.lb{opacity:0;transition:opacity .25s;line-height:1.25;font-size:14px}.lb small{display:block;font-size:11.5px;color:#9fd3ca}.side:hover .lb,.side.open .lb{opacity:1}
+.brand{margin-bottom:10px;color:#fff}.brand b{font-size:15px}
+.bd{position:absolute;left:26px;top:4px;background:#fbbf24;color:#422006;font-size:10.5px;font-weight:700;border-radius:99px;padding:0 6px;line-height:1.5}
+.who{margin-top:auto}.who b{color:#fff;font-size:13.5px;display:block;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+.lg svg{width:26px;height:26px;vertical-align:-5px;margin-right:8px;color:var(--g)}
+.im svg{width:36px;height:36px;color:var(--g);opacity:.45}.thumb svg{width:22px;height:22px}.fab svg{width:20px;height:20px}.fab{align-items:center}
+.main{flex:1;min-width:0;padding:28px 32px 50px 100px;max-width:1150px}.mtop{display:none}
 h2{font-size:22px}.sub{color:var(--soft);font-size:14px;margin-bottom:18px}
-.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
 .btn{background:var(--g);color:#fff;border:0;padding:9px 16px;border-radius:9px;font-weight:600}.btn:hover{background:var(--gd)}.btn:disabled{opacity:.5}
-.btn.gh{background:none;border:1px solid var(--line);color:var(--g)}.btn.no{background:none;border:1px solid #e9c4cf;color:var(--ro)}.btn.sm{padding:5px 11px;font-size:13.5px}
+.btn.gh{background:none;border:1px solid var(--line);color:var(--g)}.btn.no{background:none;border:1px solid var(--roline);color:var(--ro)}.btn.sm{padding:5px 11px;font-size:13.5px}
 label{display:block;font-size:13px;font-weight:600;color:var(--soft);margin-bottom:4px}
 .tag{display:inline-block;font-size:12px;font-weight:600;padding:1px 9px;border-radius:99px}.ok{background:var(--gl);color:var(--g)}.wait{background:var(--amb);color:var(--am)}.bad{background:var(--rob);color:var(--ro)}
 .row{display:flex;align-items:center;gap:12px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}.stat b{display:block;font-size:26px;line-height:1.2}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}.stat b{display:block;font-size:26px;line-height:1.2}
 .cols{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}.cartpanel{position:sticky;top:20px}
 .flt{display:flex;gap:10px;margin-bottom:14px}.flt select{width:170px}
 .mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.mc{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.mc{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
 .im{position:relative;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden}.im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .mc .im{height:110px;cursor:pointer}.thumb{width:52px;height:52px;border-radius:10px;flex-shrink:0;font-size:22px;cursor:pointer}
-.cr{padding:8px 0;border-bottom:1px solid #edf5f3;font-size:14px}.cr input{width:70px;text-align:center}
-.fab{display:none;position:fixed;right:16px;bottom:84px;background:var(--g);color:#fff;border:0;border-radius:99px;padding:12px 20px;font-weight:600;box-shadow:0 6px 20px rgba(15,118,110,.4);z-index:40;gap:6px}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--ink);color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;z-index:999;box-shadow:0 6px 24px rgba(16,48,44,.3);max-width:90vw;text-align:center}.toast.er{background:var(--ro)}
+.cr{padding:8px 0;border-bottom:1px solid var(--line2);font-size:14px}.cr input{width:70px;text-align:center}
+.fab{display:none;position:fixed;right:16px;bottom:104px;background:var(--g);color:#fff;border:0;border-radius:99px;padding:12px 20px;font-weight:600;box-shadow:0 6px 20px rgba(15,118,110,.4);z-index:40;gap:6px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:110px;background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:10px;font-size:14px;z-index:999;box-shadow:0 6px 24px rgba(16,48,44,.3);max-width:90vw;text-align:center}.toast.er{background:#be123c;color:#fff}
 .mw{position:fixed;inset:0;background:rgba(16,48,44,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:200}
-.mcard{background:#fff;border-radius:14px;max-width:480px;width:100%;max-height:88vh;overflow-y:auto;padding:22px;position:relative}
+.mcard{background:var(--card);border-radius:14px;max-width:480px;width:100%;max-height:88vh;overflow-y:auto;padding:22px;position:relative}
 .mx{position:absolute;top:10px;right:12px;background:none;border:0;font-size:24px;color:var(--soft);line-height:1}
-.mrow{padding:9px 0;border-bottom:1px solid #edf5f3}.mrow .soft{font-weight:600}
+.mrow{padding:9px 0;border-bottom:1px solid var(--line2)}.mrow .soft{font-weight:600}
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fg .f{grid-column:1/-1}
 .gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.gb{width:100%;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px 26px;box-shadow:0 10px 40px rgba(15,118,110,.1)}.gb h1{font-size:21px;text-align:center}
-.rt{display:flex;gap:8px;margin:18px 0}.rt button{flex:1;padding:10px;border-radius:9px;border:1.5px solid var(--line);background:#fff;color:var(--soft);font-weight:600}.rt button.on{background:var(--g);border-color:var(--g);color:#fff}
+.gb{width:100%;max-width:380px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 26px;box-shadow:0 10px 40px rgba(15,118,110,.1)}.gb h1{font-size:21px;text-align:center}
+.rt{display:flex;gap:8px;margin:18px 0}.rt button{flex:1;padding:10px;border-radius:9px;border:1.5px solid var(--line);background:var(--card);color:var(--soft);font-weight:600}.rt button.on{background:var(--g);border-color:var(--g);color:#fff}
 .fld{margin-bottom:14px}.ge{color:var(--ro);font-size:13.5px;min-height:1.4em;margin-bottom:6px}
 @media(max-width:860px){
-.side{position:fixed;top:auto;bottom:0;left:0;right:0;width:auto;height:auto;flex-direction:row;padding:4px 2px calc(4px + env(safe-area-inset-bottom));z-index:50;box-shadow:0 -4px 16px rgba(16,48,44,.15)}
-.brand,.who{display:none}#nav{display:flex;width:100%}
-.nb{flex-direction:column;flex:1;gap:0;padding:6px 0;font-size:11px;align-items:center;justify-content:center;margin:0}
-.nb .bd{position:absolute;top:0;right:14%;margin:0;font-size:10px}
+.side{left:12px;right:12px;top:auto;bottom:calc(12px + env(safe-area-inset-bottom));width:auto;height:64px;flex-direction:row;padding:6px 8px;border-radius:32px;overflow:visible}
+.side:hover{width:auto}.brand,.who{display:none}#nav{display:flex;width:100%;align-items:center}
+.nb{flex:1;flex-direction:column;justify-content:center;gap:2px;height:52px;padding:0;margin:0;border-radius:20px;color:#9fd3ca}.nb:hover{background:none}
+.nb.on{background:none;color:#fff}.lb{opacity:1;font-size:10.5px}
+.nb{transition:color .3s}.nb .ic{position:relative;transition:transform .45s cubic-bezier(.34,1.45,.64,1),color .3s}
+.nb.on .ic{transform:translateY(-15px);color:var(--g)}
+#nav{position:relative;height:52px}
+#nav #blob{display:block;position:absolute;left:0;top:-19px;width:46px;height:46px;border-radius:50%;background:var(--card);border:5px solid var(--bg);box-shadow:0 6px 14px rgba(11,61,56,.3);transition:transform .55s cubic-bezier(.34,1.45,.64,1);pointer-events:none}
+.bd{left:auto;right:18%;top:0}
 .mtop{display:flex;align-items:center;justify-content:space-between;background:var(--g);color:#fff;padding:12px 16px;font-weight:600}
 .mtop button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:8px;padding:5px 12px;font-size:13px}
-.main{padding:16px 14px 100px}.cols{grid-template-columns:1fr}.cartpanel{display:none}.fab{display:flex}
+.main{padding:16px 14px 110px}.cols{grid-template-columns:1fr}.cartpanel{display:none}.fab{display:flex}
 .g4{grid-template-columns:1fr 1fr}.mg{grid-template-columns:1fr 1fr}
 }
+#blob{display:none}.fi{animation:fi .35s ease}@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.im img{background:#ffffff}.tgl{position:fixed;top:16px;right:16px;z-index:5;width:42px;height:42px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--ink);display:flex;align-items:center;justify-content:center}.tgl svg{width:20px;height:20px}.mtop .thic svg{width:16px;height:16px;vertical-align:-3px}
 </style></head><body>
 
-<div id="gate" class="gate"><div class="gb">
-<h1>💊 MediCare Station</h1><p class="soft" style="text-align:center">ระบบเบิกจ่ายยาสามัญ ห้องพยาบาล</p>
+<div id="gate" class="gate"><button class="tgl thic" onclick="toggleTheme()"></button><div class="gb">
+<h1><span class="lg" data-ic="pill"></span>MediCare Station</h1><p class="soft" style="text-align:center">ระบบเบิกจ่ายยาสามัญ ห้องพยาบาล</p>
 <div class="rt"><button id="t_student" class="on" onclick="setRole('student')">นักศึกษา</button><button id="t_staff" onclick="setRole('staff')">เจ้าหน้าที่</button></div>
 <div class="fld"><label>ชื่อ-นามสกุล</label><input type="text" id="gn" placeholder="กรอกชื่อของคุณ" onkeydown="if(event.key=='Enter')enter()"></div>
 <div class="fld hide" id="cf"><label>รหัสเจ้าหน้าที่</label><input type="password" id="gc" placeholder="กรอกรหัสผ่าน" onkeydown="if(event.key=='Enter')enter()"></div>
@@ -66,11 +79,11 @@ label{display:block;font-size:13px;font-weight:600;color:var(--soft);margin-bott
 </div></div>
 
 <div id="app" class="hide">
-<div class="mtop"><span>💊 MediCare · <span id="mun"></span></span><button onclick="location.reload()">ออกจากระบบ</button></div>
+<div class="mtop"><span><span class="lg" data-ic="pill" style="filter:brightness(9)"></span><span id="mun"></span></span><span><button class="thic" onclick="toggleTheme()" style="margin-right:6px"></button><button onclick="location.reload()">ออกจากระบบ</button></span></div>
 <div class="shell">
-<aside class="side"><div class="brand"><b>💊 MediCare Station</b><span>ระบบเบิกจ่ายยาสามัญ</span></div>
+<aside class="side" id="side"><button class="nb brand" onclick="$('side').classList.toggle('open')"><span class="ic" data-ic="menu"></span><span class="lb"><b>MediCare Station</b></span></button>
 <nav id="nav"></nav>
-<div class="who"><b id="un"></b><span id="ur"></span><button class="nb" style="margin-top:8px;padding:6px 10px;font-size:13px" onclick="location.reload()">↺ ออกจากระบบ</button></div></aside>
+<div class="who"><div class="nb" style="cursor:default"><span class="ic" data-ic="user"></span><span class="lb"><b id="un"></b><small id="ur"></small></span></div><button class="nb" onclick="toggleTheme()"><span class="ic thic"></span><span class="lb thlb"></span></button><button class="nb" onclick="location.reload()"><span class="ic" data-ic="logout"></span><span class="lb">ออกจากระบบ</span></button></div></aside>
 <main class="main"><h2 id="pt"></h2><p class="sub" id="ps"></p><div id="view"></div></main>
 </div></div>
 <div id="mr"></div>
@@ -79,17 +92,23 @@ label{display:block;font-size:13px;font-weight:600;color:var(--soft);margin-bott
 var API='https://script.google.com/macros/s/AKfycbzlr9yyk_BD2uyaSNmPGSLNPNP3Q6jRAqI1NK6tPihk5oH3RWqJzT2saNhbAEqxRoFrCA/exec';
 var S={user:null,meds:[],reqs:[],page:'',cart:{},symptom:'',q:'',cat:'ทั้งหมด'},AUTH={name:'',role:'student',code:''},busy=false,V={};
 var $=function(i){return document.getElementById(i)};
+var IC={};(function(){var P={pill:'<path d="M4.5 14.5l7-7a4.95 4.95 0 117 7l-7 7a4.95 4.95 0 01-7-7z"/><line x1="9" y1="9" x2="14.5" y2="14.5"/>',home:'<path d="M4 11l8-7 8 7"/><path d="M6 10v10h5v-6h2v6h5V10"/>',list:'<rect x="6" y="4" width="12" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/>',box:'<path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 8v9l9 5 9-5V8"/><line x1="12" y1="13" x2="12" y2="22"/>',clock:'<circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,14"/>',cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 001 .8h9.2a1 1 0 001-.8L20 8H6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>',logout:'<path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/>',menu:'<line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',moon:'<path d="M20 14.5A8.5 8.5 0 119.5 4a7 7 0 0010.5 10.5z"/>'};for(var k in P)IC[k]='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+P[k]+'</svg>'})();
+document.querySelectorAll('[data-ic]').forEach(function(e){e.innerHTML=IC[e.dataset.ic]});
+var TH='light';try{TH=localStorage.getItem('mc_theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch(e){}
+function applyTheme(t){TH=t;document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('mc_theme',t)}catch(e){}document.querySelectorAll('.thic').forEach(function(e){e.innerHTML=t=='dark'?IC.sun:IC.moon});document.querySelectorAll('.thlb').forEach(function(e){e.textContent=t=='dark'?'โหมดสว่าง':'โหมดมืด'})}
+function toggleTheme(){applyTheme(TH=='dark'?'light':'dark')}
+applyTheme(TH);
 async function api(a,d){var r=await fetch(API,{method:'POST',body:JSON.stringify(Object.assign({action:a},d||{}))});var j=await r.json();if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data}
 function errm(e){return e.message==='Failed to fetch'?'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้':e.message}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function toast(m,er){var t=document.createElement('div');t.className='toast'+(er?' er':'');t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},3000)}
 function oc(f,id){return 'onclick="'+f+"('"+esc(id)+"')\""}
 function medOf(id){return S.meds.filter(function(m){return m.id===id})[0]}
-function img(m){return(m.image_url?'<img loading="lazy" src="'+esc(m.image_url)+'" onerror="this.remove()">':'')+'💊'}
+function img(m){return '<span class="ph">'+IC.pill+'</span>'+(m.image_url?'<img loading="lazy" src="'+esc(m.image_url)+'" onload="this.previousElementSibling.style.display=\'none\'" onerror="this.remove()">':'')}
 function tg(s){return s=='approved'?'<span class="tag ok">จ่ายยาแล้ว</span>':s=='rejected'?'<span class="tag bad">ปฏิเสธ</span>':'<span class="tag wait">รออนุมัติ</span>'}
 function its(a){return a.map(function(i){return esc(i.name)+' × '+i.qty}).join(', ')}
-var PG={student:[['meds','💊','เบิกยา','เลือกยาแล้วส่งคำขอให้เจ้าหน้าที่'],['mine','📋','คำขอของฉัน','ติดตามสถานะคำขอที่ส่งไปแล้ว']],
-staff:[['dash','🏠','หน้าแรก','สรุปภาพรวมวันนี้'],['pending','📋','คำขอ','ตรวจสอบและอนุมัติการจ่ายยา'],['stock','📦','คลังยา','จำนวนคงเหลือ เติมสต็อก และแก้ไขข้อมูลยา'],['hist','🕘','ประวัติ','รายการย้อนหลังทั้งหมด']]};
+var PG={student:[['meds','pill','เบิกยา','เลือกยาแล้วส่งคำขอให้เจ้าหน้าที่'],['mine','list','คำขอของฉัน','ติดตามสถานะคำขอที่ส่งไปแล้ว']],
+staff:[['dash','home','หน้าแรก','สรุปภาพรวมวันนี้'],['pending','list','คำขอ','ตรวจสอบและอนุมัติการจ่ายยา'],['stock','box','คลังยา','จำนวนคงเหลือ เติมสต็อก และแก้ไขข้อมูลยา'],['hist','clock','ประวัติ','รายการย้อนหลังทั้งหมด']]};
 
 /* ---- login ---- */
 function setRole(r){AUTH.role=r;$('t_student').classList.toggle('on',r=='student');$('t_staff').classList.toggle('on',r=='staff');$('cf').classList.toggle('hide',r!='staff');$('ge').textContent=''}
@@ -108,12 +127,18 @@ async function enter(){
 }
 async function reload(){var d=await api('refresh',{name:AUTH.name,role:AUTH.role,code:AUTH.code});S.meds=d.medicines;S.reqs=d.requests;render()}
 async function act(a,d,msg,after){if(busy)return;busy=true;try{await api(a,d);await reload();toast(msg);if(after)after()}catch(e){toast(errm(e),1)}busy=false}
-function go(p){S.page=p;render();scrollTo(0,0);reload().catch(function(){})}
+function moveBlob(){var b=$('blob'),a=document.querySelector('#nav .nb.on');if(!b||!a||!a.offsetWidth)return;var f=!b.style.transform;if(f)b.style.transition='none';b.style.transform='translateX('+(a.offsetLeft+a.offsetWidth/2-23)+'px)';if(f){void b.offsetWidth;b.style.transition=''}}
+window.addEventListener('resize',function(){var b=$('blob');if(b){b.style.transition='none';b.style.transform='';moveBlob()}});
+function go(p){S.page=p;render();var v=$('view');v.classList.remove('fi');void v.offsetWidth;v.classList.add('fi');scrollTo(0,0);reload().catch(function(){})}
 
 /* ---- layout ---- */
 function render(){
  var L=PG[AUTH.role],p=L.filter(function(x){return x[0]==S.page})[0]||L[0],pc=S.reqs.filter(function(r){return r.status=='pending'}).length;
- $('nav').innerHTML=L.map(function(x){return '<button class="nb'+(S.page==x[0]?' on':'')+'" '+"onclick=\"go('"+x[0]+"')\""+'><span class="ic">'+x[1]+'</span><span>'+x[2]+'</span>'+(x[0]=='pending'&&pc?'<span class="bd">'+pc+'</span>':'')+'</button>'}).join('');
+ var nv=$('nav');
+ if(nv.dataset.role!=AUTH.role){nv.dataset.role=AUTH.role;nv.innerHTML='<i id="blob"></i>'+L.map(function(x){return '<button class="nb" data-p="'+x[0]+'" onclick="go(\''+x[0]+'\')"><span class="ic">'+IC[x[1]]+'</span><span class="lb">'+x[2]+'</span>'+(x[0]=='pending'?'<span class="bd" id="bdg"></span>':'')+'</button>'}).join('')}
+ nv.querySelectorAll('.nb').forEach(function(b){b.classList.toggle('on',b.dataset.p==p[0])});
+ var bg=$('bdg');if(bg){bg.textContent=pc;bg.style.display=pc?'':'none'}
+ moveBlob();
  $('pt').textContent=p[2];$('ps').textContent=p[3];$('view').innerHTML=V[p[0]]();
  if(p[0]=='meds')drawMeds();cartUpd();
 }
@@ -122,11 +147,11 @@ function closeM(){$('mr').innerHTML=''}
 
 /* ---- student: medicines + cart ---- */
 V.meds=function(){var cats=['ทั้งหมด'];S.meds.forEach(function(m){if(m.category&&cats.indexOf(m.category)<0)cats.push(m.category)});
- return '<div class="cols"><div><div class="flt"><input type="text" placeholder="ค้นหาชื่อยาหรืออาการ" value="'+esc(S.q)+'" oninput="S.q=this.value;drawMeds()"><select onchange="S.cat=this.value;drawMeds()">'+cats.map(function(c){return '<option'+(c==S.cat?' selected':'')+'>'+esc(c)+'</option>'}).join('')+'</select></div><div id="ml" class="mg"></div></div><div class="card cartpanel" id="cartbox"></div></div><button class="fab" onclick="openCart()">🛒 <span id="fabn"></span></button>'};
+ return '<div class="cols"><div><div class="flt"><input type="text" placeholder="ค้นหาชื่อยาหรืออาการ" value="'+esc(S.q)+'" oninput="S.q=this.value;drawMeds()"><select onchange="S.cat=this.value;drawMeds()">'+cats.map(function(c){return '<option'+(c==S.cat?' selected':'')+'>'+esc(c)+'</option>'}).join('')+'</select></div><div id="ml" class="mg"></div></div><div class="card cartpanel" id="cartbox"></div></div><button class="fab" onclick="openCart()">'+IC.cart+'<span id="fabn"></span></button>'};
 function drawMeds(){var q=S.q.toLowerCase();
  var l=S.meds.filter(function(m){return(S.cat=='ทั้งหมด'||m.category==S.cat)&&(!q||(m.name+m.category+m.symptoms+m.note).toLowerCase().indexOf(q)>=0)});
  $('ml').innerHTML=l.length?l.map(function(m){return '<div class="mc"><div class="im" '+oc('detail',m.id)+'>'+img(m)+'</div><div style="padding:10px 12px;flex:1;display:flex;flex-direction:column;gap:3px"><b class="clk" '+oc('detail',m.id)+'>'+esc(m.name)+'</b><span class="soft">'+esc(m.symptoms||m.category)+'</span><div class="row" style="margin-top:auto;padding-top:6px;justify-content:space-between"><span class="soft">เหลือ '+m.stock+' '+esc(m.unit)+'</span>'+(m.stock>0?'<button class="btn sm" '+oc('addCart',m.id)+'>เพิ่ม</button>':'<span class="tag bad">หมด</span>')+'</div></div></div>'}).join(''):'<div class="empty" style="grid-column:1/-1">ไม่พบรายการยา</div>'}
-function cartHtml(){var ids=Object.keys(S.cart),h='<b>🛒 คำขอเบิกยา</b>';
+function cartHtml(){var ids=Object.keys(S.cart),h='<b>คำขอเบิกยา</b>';
  if(!ids.length)return h+'<div class="empty">ยังไม่ได้เลือกยา<br>กด “เพิ่ม” จากรายการยา</div>';
  h+=ids.map(function(id){var m=medOf(id);return '<div class="row cr"><span style="flex:1">'+esc(m.name)+'</span><input type="number" min="1" max="'+m.stock+'" value="'+S.cart[id]+'" onchange="setQty(\''+id+'\',this.value)"><button class="btn sm no" '+oc('delCart',id)+'>ลบ</button></div>'}).join('');
  return h+'<div style="margin:12px 0 4px"><label>อาการ</label><textarea rows="3" placeholder="เช่น ปวดหัว มีไข้ตั้งแต่เมื่อคืน" oninput="S.symptom=this.value">'+esc(S.symptom)+'</textarea></div><button class="btn" style="width:100%;margin-top:8px" onclick="send()">ส่งคำขอเบิกยา</button>'}
@@ -151,10 +176,10 @@ V.dash=function(){var t=new Date(),p=function(n){return('0'+n).slice(-2)},td=t.g
  var pend=S.reqs.filter(function(r){return r.status=='pending'}).length,today=S.reqs.filter(function(r){return String(r.timestamp).indexOf(td)==0}).length,ap=S.reqs.filter(function(r){return r.status=='approved'}).length,low=S.meds.filter(function(m){return m.stock<=m.min_stock});
  function st(n,l){return '<div class="stat"><b>'+n+'</b><span class="soft">'+l+'</span></div>'}
  var h='<div class="g4">'+st(pend,'รออนุมัติ')+st(today,'คำขอวันนี้')+st(ap,'จ่ายยาแล้วสะสม')+st(low.length,'ยาใกล้หมด')+'</div>';
- if(low.length)h+='<div class="card" style="background:var(--amb);border-color:#f0d9b5"><b style="color:var(--am)">⚠️ ยาที่ควรเติมสต็อก</b>'+low.map(function(m){return '<div style="padding:4px 0">'+esc(m.name)+' — เหลือ <b>'+m.stock+' '+esc(m.unit)+'</b> <span class="soft">(ขั้นต่ำ '+m.min_stock+')</span></div>'}).join('')+'</div>';
+ if(low.length)h+='<div class="card" style="background:var(--amb);border-color:var(--amline)"><b style="color:var(--am)">ยาที่ควรเติมสต็อก</b>'+low.map(function(m){return '<div style="padding:4px 0">'+esc(m.name)+' — เหลือ <b>'+m.stock+' '+esc(m.unit)+'</b> <span class="soft">(ขั้นต่ำ '+m.min_stock+')</span></div>'}).join('')+'</div>';
  return h+'<div class="card"><b>คำขอล่าสุด</b>'+(S.reqs.length?S.reqs.slice(0,6).map(function(r){return '<div class="row cr"><div style="flex:1"><b>'+esc(r.student_name)+'</b><div class="soft">'+esc(r.timestamp)+' · '+its(r.items)+'</div></div>'+tg(r.status)+'</div>'}).join(''):'<div class="empty">ยังไม่มีคำขอ</div>')+'</div>'};
-V.pending=function(){var l=S.reqs.filter(function(r){return r.status=='pending'});if(!l.length)return '<div class="card empty">ไม่มีคำขอค้างอยู่ 🎉</div>';
- return l.map(function(r){return '<div class="card"><div class="row" style="flex-wrap:wrap"><div style="flex:1"><b>'+esc(r.student_name)+'</b><div class="soft">'+esc(r.req_id)+' · '+esc(r.timestamp)+'</div></div><button class="btn no sm" onclick="decide(\''+esc(r.req_id)+'\',\'rejected\')">ปฏิเสธ</button><button class="btn sm" onclick="decide(\''+esc(r.req_id)+'\',\'approved\')">อนุมัติและจ่ายยา</button></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid #edf5f3">'
+V.pending=function(){var l=S.reqs.filter(function(r){return r.status=='pending'});if(!l.length)return '<div class="card empty">ไม่มีคำขอค้างอยู่</div>';
+ return l.map(function(r){return '<div class="card"><div class="row" style="flex-wrap:wrap"><div style="flex:1"><b>'+esc(r.student_name)+'</b><div class="soft">'+esc(r.req_id)+' · '+esc(r.timestamp)+'</div></div><button class="btn no sm" onclick="decide(\''+esc(r.req_id)+'\',\'rejected\')">ปฏิเสธ</button><button class="btn sm" onclick="decide(\''+esc(r.req_id)+'\',\'approved\')">อนุมัติและจ่ายยา</button></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line2)">'
  +r.items.map(function(i){var m=medOf(i.med_id);return '<div>'+esc(i.name)+' × <b>'+i.qty+'</b>'+(m?' <span class="soft">(คลังเหลือ '+m.stock+')</span>':'')+(m&&i.qty>m.stock?' <span class="tag bad">สต็อกไม่พอ</span>':'')+'</div>'}).join('')+(r.symptom?'<div class="soft" style="margin-top:6px">อาการ: '+esc(r.symptom)+'</div>':'')+'</div></div>'}).join('')};
 function decide(id,d){if(!confirm(d=='approved'?'ยืนยันอนุมัติและตัดสต็อกตามคำขอนี้?':'ยืนยันปฏิเสธคำขอนี้?'))return;
  act('decideRequest',{reqId:id,decision:d,staffName:AUTH.name,code:AUTH.code},d=='approved'?'อนุมัติและตัดสต็อกแล้ว':'ปฏิเสธคำขอแล้ว')}
@@ -172,7 +197,7 @@ function medForm(id){var m=id?medOf(id):{};
  +'<div class="f"><label>รูปภาพยา</label><div class="im" id="mf_prev" style="height:120px;border-radius:10px;margin-bottom:8px">'+img(m)+'</div><input type="hidden" id="mf_img" value="'+esc(m.image_url)+'"><input type="file" accept="image/*" onchange="pickImg(this)"><div class="soft" id="mf_st"></div></div></div><button class="btn" style="width:100%;margin-top:14px" onclick="saveMed(\''+esc(id||'')+'\')">บันทึก</button>')}
 function pickImg(inp){var f=inp.files[0];if(!f)return;var st=$('mf_st');st.textContent='กำลังอัปโหลด…';var rd=new FileReader();
  rd.onload=function(){var im=new Image();im.onload=async function(){var s=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-  try{var r=await api('uploadImage',{base64:c.toDataURL('image/jpeg',.8).split(',')[1],mime:'image/jpeg',filename:f.name,staffName:AUTH.name,code:AUTH.code});$('mf_img').value=r.url;$('mf_prev').innerHTML='<img src="'+esc(r.url)+'">💊';st.textContent='อัปโหลดสำเร็จ (กดบันทึกด้วย)'}catch(e){st.textContent='อัปโหลดไม่สำเร็จ: '+errm(e)}};im.src=rd.result};rd.readAsDataURL(f)}
+  try{var r=await api('uploadImage',{base64:c.toDataURL('image/jpeg',.8).split(',')[1],mime:'image/jpeg',filename:f.name,staffName:AUTH.name,code:AUTH.code});$('mf_img').value=r.url;$('mf_prev').innerHTML=img({image_url:r.url});st.textContent='อัปโหลดสำเร็จ (กดบันทึกด้วย)'}catch(e){st.textContent='อัปโหลดไม่สำเร็จ: '+errm(e)}};im.src=rd.result};rd.readAsDataURL(f)}
 function saveMed(id){var g=function(k){return $('mf_'+k).value.trim()},p={name:g('name'),category:g('category'),unit:g('unit'),min_stock:g('min_stock'),symptoms:g('symptoms'),dosage:g('dosage'),precautions:g('precautions'),note:g('note'),image_url:$('mf_img').value};
  if(!p.name){$('mfe').textContent='กรุณากรอกชื่อยา';return}
  if(id)act('updateMedicine',{medId:id,payload:p,staffName:AUTH.name,code:AUTH.code},'บันทึกแล้ว',closeM);
