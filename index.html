@@ -101,8 +101,8 @@ function applyTheme(t){TH=t;document.documentElement.setAttribute('data-theme',t
 function toggleTheme(){applyTheme(TH=='dark'?'light':'dark')}
 applyTheme(TH);
 document.addEventListener('click',function(e){var sd=$('side');if(sd&&!sd.contains(e.target))sd.classList.remove('open')});
-async function api(a,d){var payload=JSON.stringify(Object.assign({action:a},d||{}));var r=await fetch(API+'?payload='+encodeURIComponent(payload));var j=await r.json();if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data}
-async function apiPost(a,d){var r=await fetch(API,{method:'POST',body:JSON.stringify(Object.assign({action:a},d||{}))});var j=await r.json();if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data}
+async function api(a,d){var r=await fetch(API,{method:'POST',body:JSON.stringify(Object.assign({action:a},d||{}))});var j=await r.json();if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data}
+async function apiPost(a,d){return api(a,d)}
 function errm(e){return e.message==='Failed to fetch'?'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้':e.message}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function toast(m,er){var t=document.createElement('div');t.className='toast'+(er?' er':'');t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},3000)}
