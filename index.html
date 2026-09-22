@@ -101,7 +101,8 @@ function applyTheme(t){TH=t;document.documentElement.setAttribute('data-theme',t
 function toggleTheme(){applyTheme(TH=='dark'?'light':'dark')}
 applyTheme(TH);
 document.addEventListener('click',function(e){var sd=$('side');if(sd&&!sd.contains(e.target))sd.classList.remove('open')});
-async function api(a,d){var r=await fetch(API,{method:'POST',body:JSON.stringify(Object.assign({action:a},d||{}))});var j=await r.json();if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data}
+async function api(a,d){var payload=JSON.stringify(Object.assign({action:a},d||{}));var r=await fetch(API+'?payload='+encodeURIComponent(payload));var j=await r.json();if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data}
+async function apiPost(a,d){var r=await fetch(API,{method:'POST',body:JSON.stringify(Object.assign({action:a},d||{}))});var j=await r.json();if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data}
 function errm(e){return e.message==='Failed to fetch'?'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้':e.message}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function toast(m,er){var t=document.createElement('div');t.className='toast'+(er?' er':'');t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},3000)}
@@ -133,6 +134,7 @@ async function enter(){
    AUTH.email=em;
    d=await api('login',{email:em,role:'student',name:nm});
   }
+  if(!d||!d.user)throw new Error('เซิร์ฟเวอร์ตอบกลับไม่สมบูรณ์ กรุณาล้างแคชแล้วลองใหม่');
   AUTH.name=d.user.name;
   S.user=d.user;S.meds=d.medicines;S.reqs=d.requests;S.page=PG[AUTH.role][0][0];
   $('gate').classList.add('hide');$('app').classList.remove('hide');
@@ -216,7 +218,7 @@ function medForm(id){var m=id?medOf(id):{};
  +'<div class="f"><label>รูปภาพยา</label><div class="im" id="mf_prev" style="height:120px;border-radius:10px;margin-bottom:8px">'+img(m)+'</div><input type="hidden" id="mf_img" value="'+esc(m.image_url)+'"><input type="file" accept="image/*" onchange="pickImg(this)"><div class="soft" id="mf_st"></div></div></div><button class="btn" style="width:100%;margin-top:14px" onclick="saveMed(\''+esc(id||'')+'\')">บันทึก</button>')}
 function pickImg(inp){var f=inp.files[0];if(!f)return;var st=$('mf_st');st.textContent='กำลังอัปโหลด…';var rd=new FileReader();
  rd.onload=function(){var im=new Image();im.onload=async function(){var s=Math.min(1,800/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-  try{var r=await api('uploadImage',{base64:c.toDataURL('image/jpeg',.8).split(',')[1],mime:'image/jpeg',filename:f.name,staffName:AUTH.name,code:AUTH.code});$('mf_img').value=r.url;$('mf_prev').innerHTML=img({image_url:r.url});st.textContent='อัปโหลดสำเร็จ (กดบันทึกด้วย)'}catch(e){st.textContent='อัปโหลดไม่สำเร็จ: '+errm(e)}};im.src=rd.result};rd.readAsDataURL(f)}
+  try{var r=await apiPost('uploadImage',{base64:c.toDataURL('image/jpeg',.8).split(',')[1],mime:'image/jpeg',filename:f.name,staffName:AUTH.name,code:AUTH.code});$('mf_img').value=r.url;$('mf_prev').innerHTML=img({image_url:r.url});st.textContent='อัปโหลดสำเร็จ (กดบันทึกด้วย)'}catch(e){st.textContent='อัปโหลดไม่สำเร็จ: '+errm(e)}};im.src=rd.result};rd.readAsDataURL(f)}
 function saveMed(id){var g=function(k){return $('mf_'+k).value.trim()},p={name:g('name'),category:g('category'),unit:g('unit'),min_stock:g('min_stock'),symptoms:g('symptoms'),dosage:g('dosage'),precautions:g('precautions'),note:g('note'),image_url:$('mf_img').value};
  if(!p.name){$('mfe').textContent='กรุณากรอกชื่อยา';return}
  if(id)act('updateMedicine',{medId:id,payload:p,staffName:AUTH.name,code:AUTH.code},'บันทึกแล้ว',closeM);
